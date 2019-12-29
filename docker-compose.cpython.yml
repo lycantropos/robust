@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  robust-cpython:
+    build:
+      context: .
+      args:
+        - PYTHON_IMAGE=${CPYTHON_IMAGE_NAME}
+        - PYTHON_IMAGE_VERSION=${CPYTHON_IMAGE_VERSION}
+    image: lycantropos/robust-cpython:0.0.0
+    volumes:
+      - ./robust/:/opt/robust/robust/
+      - ./tests/:/opt/robust/tests/
+      - ./README.md:/opt/robust/README.md
+      - ./requirements.txt:/opt/robust/requirements.txt
+      - ./requirements-tests.txt:/opt/robust/requirements-tests.txt
+      - ./setup.py:/opt/robust/setup.py
+      - ./pytest.ini:/opt/robust/pytest.ini
+    entrypoint: pytest
