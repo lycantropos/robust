@@ -1,5 +1,4 @@
-sudo: false
-distro: xenial
+dist: xenial
 
 language: python
 
@@ -24,3 +23,12 @@ script:
 
 after_success:
   - python -m codecov -f coverage.xml -X gcov
+
+deploy:
+  provider: pypi
+  on:
+    branch: master
+    user: __token__
+  password:
+    secure: ANNNaz5F1p8v9dnSSOe+stLNizBeSby+OUsMFEmM16BbJbXdNxZw3R/izqH90I/Cn6aSwniCVIecM/oqiQZT7EVuYxJQHt7yzcbzkFiaG29AR/+RHUY8XOYLOSWKT9tbeRDg6BzAQHJPrJxmGab+LwgG3z1YeTyGpXMVu94EWpg8qW9hicf54dzdSZvqtba8tLVGhNy0CpUqDF70rNFsw3VPtEImDiqw57JnMrJJAD2k15aYly0OSOnhxEY1FoBkX4RT/tY53lOSgw33qHbsDj1Akz8LUnL0xeiWCdZ1UvUOuJJnHQp1mXromZ2FkHoo4GFMNdmNnjgdgJ/HRLwbn2yj153udU+9mrNzD9ZwvnaQkOXzV3JEk6SHzcFkSRRaQTiN+jqIzclDIF1GrolbIqW8trSgdlFAlewQwShL+uq8wlph3oEjXFE/Hsen2TqHysnQPyPY8YBE1uodZVdi4KAuBPy0Og6bTl05Fbxdr6XpNg/5DGekxgzeDwVx5IL16j+3KdgMUfCDAtsfselaPp4B6XUpL0yEVEC2cdOalFjLEK18zWgBkqMlqPmsVtv13dtq8WK/ywYqfTlUM8RCozaRv6CbJXrAA201FD5YiHomsyA3BtAsh3P7wx099y2Z0GH/s80dbibATi5OCGGXG9DZ2MaSzg5yNTHsfd52kNc=
+  distributions: "sdist bdist_wheel"
