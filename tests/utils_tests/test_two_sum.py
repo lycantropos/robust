@@ -18,13 +18,6 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     assert all(isinstance(element, type(left)) for element in result)
 
 
-@given(strategies.scalars_pairs)
-def test_commutativity(scalars_pair: Tuple[Scalar, Scalar]) -> None:
-    left, right = scalars_pair
-
-    assert two_sum(left, right) == two_sum(right, left)
-
-
 @given(strategies.scalars)
 def test_left_neutral_element(scalar: Scalar) -> None:
     assert two_sum(0, scalar) == (scalar, 0)
