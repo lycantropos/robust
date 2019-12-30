@@ -1,1 +1,2 @@
-from .literals import scalars_pairs
+from .literals import (scalars,
+                       scalars_pairs)

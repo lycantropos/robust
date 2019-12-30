@@ -3,12 +3,14 @@ from decimal import Decimal
 from fractions import Fraction
 from functools import partial
 from typing import (Optional,
-                    SupportsFloat, Tuple)
+                    SupportsFloat,
+                    Tuple)
 
 from hypothesis import strategies
 
 from robust.hints import Scalar
-from tests.utils import Strategy
+from tests.utils import (Strategy,
+                         identity)
 
 MAX_DIGITS_COUNT = sys.float_info.dig
 
@@ -113,4 +115,5 @@ def to_scalars_pairs(scalars: Strategy[Scalar]
     return strategies.tuples(scalars, scalars)
 
 
+scalars = scalars_strategies.flatmap(identity)
 scalars_pairs = points = scalars_strategies.flatmap(to_scalars_pairs)
