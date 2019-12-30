@@ -7,7 +7,7 @@ services:
       args:
         - PYTHON_IMAGE=${PYPY_IMAGE_NAME}
         - PYTHON_IMAGE_VERSION=${PYPY_IMAGE_VERSION}
-    image: lycantropos/robust-pypy:0.0.0
+    image: lycantropos/robust-pypy:0.0.1-alpha
     volumes:
       - ./robust/:/opt/robust/robust/
       - ./tests/:/opt/robust/tests/
