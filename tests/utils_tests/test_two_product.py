@@ -19,10 +19,12 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 
 
 @given(strategies.scalars_pairs)
-def test_commutativity(scalars_pair: Tuple[Scalar, Scalar]) -> None:
+def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    assert two_product(left, right) == two_product(right, left)
+    approximation, tail = two_product(left, right)
+
+    assert approximation + tail == left * right
 
 
 @given(strategies.scalars)
