@@ -3,7 +3,8 @@ from typing import Tuple
 from hypothesis import given
 
 from robust.hints import Scalar
-from robust.utils import two_sum
+from robust.utils import (fast_two_sum,
+                          two_sum)
 from tests import strategies
 
 
@@ -35,3 +36,13 @@ def test_left_neutral_element(scalar: Scalar) -> None:
 @given(strategies.scalars)
 def test_right_neutral_element(scalar: Scalar) -> None:
     assert two_sum(scalar, 0) == (scalar, 0)
+
+
+@given(strategies.scalars_pairs)
+def test_connection_with_fast_two_sum(scalars_pair: Tuple[Scalar, Scalar]
+                                      ) -> None:
+    left, right = sorted(scalars_pair,
+                         key=abs,
+                         reverse=True)
+
+    assert two_sum(left, right) == fast_two_sum(left, right)
