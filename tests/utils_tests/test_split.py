@@ -24,4 +24,5 @@ def test_properties(scalar: Scalar) -> None:
     low, high = split(scalar)
 
     assert low + high == scalar
+    assert abs(low) <= abs(high)
     assert are_non_overlapping_numbers(low, high)
