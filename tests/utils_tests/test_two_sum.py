@@ -40,11 +40,9 @@ def test_right_neutral_element(scalar: Scalar) -> None:
     assert two_sum(scalar, 0) == (scalar, 0)
 
 
-@given(strategies.scalars_pairs)
+@given(strategies.reverse_sorted_by_modulus_scalars_pairs)
 def test_connection_with_fast_two_sum(scalars_pair: Tuple[Scalar, Scalar]
                                       ) -> None:
-    left, right = sorted(scalars_pair,
-                         key=abs,
-                         reverse=True)
+    left, right = scalars_pair
 
     assert two_sum(left, right) == fast_two_sum(left, right)
