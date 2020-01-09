@@ -8,8 +8,6 @@ from tests.utils import are_non_overlapping_numbers
 
 @given(strategies.scalars)
 def test_basic(scalar: Scalar) -> None:
-    scalar = scalar
-
     result = split(scalar)
 
     assert isinstance(result, tuple)
@@ -19,8 +17,6 @@ def test_basic(scalar: Scalar) -> None:
 
 @given(strategies.scalars)
 def test_properties(scalar: Scalar) -> None:
-    scalar = scalar
-
     low, high = split(scalar)
 
     assert low + high == scalar
