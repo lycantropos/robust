@@ -117,3 +117,7 @@ def to_scalars_pairs(scalars: Strategy[Scalar]
 
 scalars = scalars_strategies.flatmap(identity)
 scalars_pairs = points = scalars_strategies.flatmap(to_scalars_pairs)
+reverse_sorted_by_modulus_scalars_pairs = (scalars_pairs
+                                           .map(partial(sorted,
+                                                        key=abs,
+                                                        reverse=True)))
