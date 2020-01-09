@@ -29,9 +29,9 @@ def split(value: Scalar,
           *,
           splitter: Scalar = bounds.splitter) -> Tuple[Scalar, Scalar]:
     base = splitter * value
-    result_high = base - (base - value)
-    result_low = value - result_high
-    return result_low, result_high
+    high = base - (base - value)
+    low = value - high
+    return low, high
 
 
 def two_product_presplit(left: Scalar, right: Scalar, right_low: Scalar,
