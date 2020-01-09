@@ -23,11 +23,11 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    approximation, tail = fast_two_sum(left, right)
+    estimation, tail = fast_two_sum(left, right)
 
-    assert approximation + tail == left + right
-    assert abs(approximation) >= abs(tail)
-    assert are_non_overlapping_numbers(approximation, tail)
+    assert estimation + tail == left + right
+    assert abs(estimation) >= abs(tail)
+    assert are_non_overlapping_numbers(estimation, tail)
 
 
 @given(strategies.scalars)
