@@ -26,6 +26,7 @@ def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     approximation, tail = two_product(left, right)
 
     assert approximation + tail == left * right
+    assert abs(approximation) >= abs(tail)
     assert are_non_overlapping_numbers(approximation, tail)
 
 
