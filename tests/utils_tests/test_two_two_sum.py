@@ -37,7 +37,7 @@ def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
 def test_left_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     scalar_tail, scalar = scalars_pair
 
-    assert (two_two_sum(scalar_tail, scalar, 0, 0)
+    assert (two_two_sum(0, 0, scalar_tail, scalar)
             == (0, 0, *two_sum(scalar_tail, scalar)))
 
 
@@ -45,5 +45,5 @@ def test_left_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_right_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     scalar_tail, scalar = scalars_pair
 
-    assert (two_two_sum(0, 0, scalar_tail, scalar)
+    assert (two_two_sum(scalar_tail, scalar, 0, 0)
             == (0, 0, *two_sum(scalar_tail, scalar)))
