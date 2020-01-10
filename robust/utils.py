@@ -83,14 +83,14 @@ def two_one_sum(left_tail: Scalar, left: Scalar,
 
 def two_one_diff(left_tail: Scalar, left: Scalar,
                  right: Scalar) -> Tuple[Scalar, Scalar, Scalar]:
-    interim, second_tail = two_diff(left_tail, right)
-    estimation, first_tail = two_sum(left, interim)
+    second_tail, interim = two_diff(left_tail, right)
+    first_tail, estimation = two_sum(left, interim)
     return estimation, first_tail, second_tail
 
 
 def two_diff(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     estimation = left - right
-    return estimation, two_diff_tail(left, right, estimation)
+    return two_diff_tail(left, right, estimation), estimation
 
 
 def two_diff_tail(left: Scalar, right: Scalar, estimation: Scalar) -> Scalar:
