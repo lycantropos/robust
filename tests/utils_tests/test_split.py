@@ -3,7 +3,8 @@ from hypothesis import given
 from robust.hints import Scalar
 from robust.utils import split
 from tests import strategies
-from tests.utils import are_non_overlapping_numbers
+from tests.utils import (is_non_overlapping_expansion,
+                         is_sorted_by_magnitude_expansion)
 
 
 @given(strategies.scalars)
@@ -17,8 +18,8 @@ def test_basic(scalar: Scalar) -> None:
 
 @given(strategies.scalars)
 def test_properties(scalar: Scalar) -> None:
-    low, high = split(scalar)
+    result = split(scalar)
 
-    assert low + high == scalar
-    assert abs(low) <= abs(high)
-    assert are_non_overlapping_numbers(low, high)
+    assert sum(result) == scalar
+    assert is_sorted_by_magnitude_expansion(result)
+    assert is_non_overlapping_expansion(result)
