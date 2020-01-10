@@ -115,8 +115,7 @@ def sum_expansions(left_expansion: Expansion,
     """
     Sums two expansions with zero components elimination.
     """
-    left_length = len(left_expansion)
-    right_length = len(right_expansion)
+    left_length, right_length = len(left_expansion), len(right_expansion)
     left_element, right_element = left_expansion[0], right_expansion[0]
     left_index = right_index = 0
     if (right_element > left_element) is (right_element > -left_element):
