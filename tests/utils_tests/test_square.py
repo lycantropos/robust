@@ -17,7 +17,7 @@ def test_basic(scalar: Scalar) -> None:
 
 @given(strategies.scalars)
 def test_properties(scalar: Scalar) -> None:
-    estimation, tail = square(scalar)
+    tail, estimation = square(scalar)
 
     assert estimation + tail == scalar ** 2
     assert abs(estimation) >= abs(tail)
