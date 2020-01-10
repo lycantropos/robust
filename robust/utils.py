@@ -42,7 +42,7 @@ def two_product_presplit(left: Scalar, right: Scalar, right_low: Scalar,
     second_error = first_error - left_low * right_high
     third_error = second_error - left_high * right_low
     tail = left_low * right_low - third_error
-    return estimation, tail
+    return tail, estimation
 
 
 def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
@@ -197,13 +197,13 @@ def scale_expansion(expansion: Expansion, scalar: Scalar) -> Expansion:
     """
     expansion = iter(expansion)
     scalar_low, scalar_high = split(scalar)
-    accumulator, tail = two_product_presplit(next(expansion), scalar,
+    tail, accumulator = two_product_presplit(next(expansion), scalar,
                                              scalar_low, scalar_high)
     result = []
     if tail:
         result.append(tail)
     for element in expansion:
-        product, product_tail = two_product_presplit(element, scalar,
+        product_tail, product = two_product_presplit(element, scalar,
                                                      scalar_low, scalar_high)
         tail, interim = two_sum(accumulator, product_tail)
         if tail:
