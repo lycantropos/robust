@@ -24,21 +24,21 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    estimation, tail = two_sum(left, right)
+    tail, estimation = two_sum(left, right)
 
     assert estimation + tail == left + right
-    assert abs(estimation) >= abs(tail)
+    assert abs(tail) <= abs(estimation)
     assert are_non_overlapping_numbers(estimation, tail)
 
 
 @given(strategies.scalars)
 def test_left_neutral_element(scalar: Scalar) -> None:
-    assert two_sum(0, scalar) == (scalar, 0)
+    assert two_sum(0, scalar) == (0, scalar)
 
 
 @given(strategies.scalars)
 def test_right_neutral_element(scalar: Scalar) -> None:
-    assert two_sum(scalar, 0) == (scalar, 0)
+    assert two_sum(scalar, 0) == (0, scalar)
 
 
 @given(strategies.reverse_sorted_by_modulus_scalars_pairs)
