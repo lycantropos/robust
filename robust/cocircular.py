@@ -193,13 +193,13 @@ def _adjusted_determinant(first_point: Point, second_point: Point,
 
     if first_dx_tail or first_dy_tail:
         if second_dx_tail or second_dy_tail or third_dx_tail or third_dy_tail:
-            second_third_crossed_tails, second_third_crossed_tails_tail = (
+            second_third_crossed_tails_tail, second_third_crossed_tails = (
                 _to_crossed_tails(second_dx, second_dx_tail,
                                   second_dy, second_dy_tail,
                                   third_dx, third_dx_tail,
                                   third_dy, third_dy_tail))
         else:
-            second_third_crossed_tails = second_third_crossed_tails_tail = (0,)
+            second_third_crossed_tails_tail = second_third_crossed_tails = (0,)
 
         if first_dx_tail:
             result_expansion = reduce(
@@ -223,13 +223,13 @@ def _adjusted_determinant(first_point: Point, second_point: Point,
 
     if second_dx_tail or second_dy_tail:
         if first_dx_tail or first_dy_tail or third_dx_tail or third_dy_tail:
-            third_first_crossed_tails, third_first_crossed_tails_tail = (
+            third_first_crossed_tails_tail, third_first_crossed_tails = (
                 _to_crossed_tails(third_dx, third_dx_tail,
                                   third_dy, third_dy_tail,
                                   first_dx, first_dx_tail,
                                   first_dy, first_dy_tail))
         else:
-            third_first_crossed_tails = third_first_crossed_tails_tail = (0,)
+            third_first_crossed_tails_tail = third_first_crossed_tails = (0,)
 
         if second_dx_tail:
             result_expansion = reduce(
@@ -253,13 +253,13 @@ def _adjusted_determinant(first_point: Point, second_point: Point,
 
     if third_dx_tail or third_dy_tail:
         if first_dx_tail or first_dy_tail or second_dx_tail or second_dy_tail:
-            first_second_crossed_tails, first_second_crossed_tails_tail = (
+            first_second_crossed_tails_tail, first_second_crossed_tails = (
                 _to_crossed_tails(first_dx, first_dx_tail,
                                   first_dy, first_dy_tail,
                                   second_dx, second_dx_tail,
                                   second_dy, second_dy_tail))
         else:
-            first_second_crossed_tails = first_second_crossed_tails_tail = (0,)
+            first_second_crossed_tails_tail = first_second_crossed_tails = (0,)
 
         if third_dx_tail:
             result_expansion = reduce(
@@ -347,31 +347,17 @@ def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
                       right_dx: Scalar, right_dx_tail: Scalar,
                       right_dy: Scalar, right_dy_tail: Scalar
                       ) -> Tuple[Expansion, Expansion]:
-    left_dx_tail_right_dy_tail, left_dx_tail_right_dy = two_product(
-            left_dx_tail, right_dy)
-    left_dx_right_dy_tail_tail, left_dx_right_dy_tail = two_product(
-            left_dx, right_dy_tail)
-    minus_right_dx_tail_left_dy_tail, minus_right_dx_tail_left_dy = (
-        two_product(right_dx_tail, -left_dy))
-    minus_right_dx_left_dy_tail_tail, minus_right_dx_left_dy_tail = (
-        two_product(right_dx, -left_dy_tail))
-    estimation = sum_expansions(two_two_sum(left_dx_tail_right_dy_tail,
-                                            left_dx_tail_right_dy,
-                                            left_dx_right_dy_tail_tail,
-                                            left_dx_right_dy_tail),
-                                two_two_sum(minus_right_dx_tail_left_dy_tail,
-                                            minus_right_dx_tail_left_dy,
-                                            minus_right_dx_left_dy_tail_tail,
-                                            minus_right_dx_left_dy_tail))
-    left_dx_tail_right_dy_tail_tail, left_dx_tail_right_dy_tail = two_product(
-            left_dx_tail, right_dy_tail)
-    right_dx_tail_left_dy_tail_tail, right_dx_tail_left_dy_tail = two_product(
-            right_dx_tail, left_dy_tail)
-    tail = two_two_diff(left_dx_tail_right_dy_tail_tail,
-                        left_dx_tail_right_dy_tail,
-                        right_dx_tail_left_dy_tail_tail,
-                        right_dx_tail_left_dy_tail)
-    return estimation, tail
+    tail = two_two_diff(*two_product(left_dx_tail, right_dy_tail),
+                        *two_product(right_dx_tail, left_dy_tail))
+    estimation = sum_expansions(two_two_sum(*two_product(left_dx_tail,
+                                                         right_dy),
+                                            *two_product(left_dx,
+                                                         right_dy_tail)),
+                                two_two_sum(*two_product(right_dx_tail,
+                                                         -left_dy),
+                                            *two_product(right_dx,
+                                                         -left_dy_tail)))
+    return tail, estimation
 
 
 def _multiply_by_squared_length(expansion: Expansion,
