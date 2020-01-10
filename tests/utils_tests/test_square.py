@@ -20,6 +20,6 @@ def test_basic(scalar: Scalar) -> None:
 def test_properties(scalar: Scalar) -> None:
     result = square(scalar)
 
-    assert sum(result) == scalar ** 2
+    assert sum(result) == scalar * scalar
     assert is_sorted_by_magnitude_expansion(result)
     assert is_non_overlapping_expansion(result)
