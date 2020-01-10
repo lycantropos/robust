@@ -23,7 +23,7 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    estimation, tail = fast_two_sum(left, right)
+    tail, estimation = fast_two_sum(left, right)
 
     assert estimation + tail == left + right
     assert abs(estimation) >= abs(tail)
@@ -32,9 +32,9 @@ def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 
 @given(strategies.scalars)
 def test_left_neutral_element(scalar: Scalar) -> None:
-    assert fast_two_sum(0, scalar) == (scalar, 0)
+    assert fast_two_sum(0, scalar) == (0, scalar)
 
 
 @given(strategies.scalars)
 def test_right_neutral_element(scalar: Scalar) -> None:
-    assert fast_two_sum(scalar, 0) == (scalar, 0)
+    assert fast_two_sum(scalar, 0) == (0, scalar)
