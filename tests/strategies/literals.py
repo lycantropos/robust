@@ -217,9 +217,15 @@ def expand(value: Domain) -> Sequence[Domain]:
 
 
 unary_expanding_functions = (expand,) + unary_expanding_functions
+expansions_builders = (tuple_map(to_builder, unary_expanding_functions)
+                       + tuple(compose(to_builder(pack(function)), to_pairs)
+                               for function in binary_expanding_functions))
 expansions_with_scales = strategies.one_of(
         [scalars_strategies.flatmap(compose(pack(strategies.tuples),
                                             cleave(builder, identity)))
-         for builder in (tuple_map(to_builder, unary_expanding_functions)
-                         + tuple(compose(to_builder(pack(function)), to_pairs)
-                                 for function in binary_expanding_functions))])
+         for builder in expansions_builders])
+expansions_pairs = strategies.one_of(
+        [scalars_strategies.flatmap(compose(pack(strategies.tuples),
+                                            cleave(builder, other_builder)))
+         for builder, other_builder in product(expansions_builders,
+                                               repeat=2)])
