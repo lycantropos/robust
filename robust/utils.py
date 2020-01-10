@@ -12,7 +12,7 @@ def fast_two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     estimation = left + right
     right_virtual = estimation - left
     tail = right - right_virtual
-    return estimation, tail
+    return tail, estimation
 
 
 def two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
@@ -135,14 +135,14 @@ def sum_expansions(left_expansion: Expansion,
     result = []
     if (left_index < left_length) and (right_index < right_length):
         if (right_element > left_element) is (right_element > -left_element):
-            accumulator, tail = fast_two_sum(left_element, accumulator)
+            tail, accumulator = fast_two_sum(left_element, accumulator)
             left_index += 1
             try:
                 left_element = left_expansion[left_index]
             except IndexError:
                 pass
         else:
-            accumulator, tail = fast_two_sum(right_element, accumulator)
+            tail, accumulator = fast_two_sum(right_element, accumulator)
             right_index += 1
             try:
                 right_element = right_expansion[right_index]
@@ -208,7 +208,7 @@ def scale_expansion(expansion: Expansion, scalar: Scalar) -> Expansion:
         tail, interim = two_sum(accumulator, product_tail)
         if tail:
             result.append(tail)
-        accumulator, tail = fast_two_sum(product, interim)
+        tail, accumulator = fast_two_sum(product, interim)
         if tail:
             result.append(tail)
     if accumulator or not result:
