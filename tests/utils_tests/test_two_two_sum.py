@@ -15,7 +15,7 @@ def test_basic(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
                                          Tuple[Scalar, Scalar]]) -> None:
     (left, left_tail), (right, right_tail) = scalars_pairs_pair
 
-    result = two_two_sum(left, left_tail, right, right_tail)
+    result = two_two_sum(left_tail, left, right_tail, right)
 
     assert isinstance(result, tuple)
     assert len(result) == 4
@@ -27,7 +27,7 @@ def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
                                               Tuple[Scalar, Scalar]]) -> None:
     (left, left_tail), (right, right_tail) = scalars_pairs_pair
 
-    result = two_two_sum(left, left_tail, right, right_tail)
+    result = two_two_sum(left_tail, left, right_tail, right)
 
     assert is_sorted_by_magnitude_expansion(result)
     assert is_non_overlapping_expansion(result)
@@ -37,7 +37,7 @@ def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
 def test_left_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     scalar, scalar_tail = scalars_pair
 
-    assert (two_two_sum(scalar, scalar_tail, 0, 0)
+    assert (two_two_sum(scalar_tail, scalar, 0, 0)
             == (0, 0, *reversed(two_sum(scalar, scalar_tail))))
 
 
@@ -45,5 +45,5 @@ def test_left_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_right_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     scalar, scalar_tail = scalars_pair
 
-    assert (two_two_sum(0, 0, scalar, scalar_tail)
+    assert (two_two_sum(0, 0, scalar_tail, scalar)
             == (0, 0, *reversed(two_sum(scalar, scalar_tail))))
