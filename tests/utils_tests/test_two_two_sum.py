@@ -13,7 +13,7 @@ from tests.utils import (is_non_overlapping_expansion,
 @given(strategies.non_overlapping_scalars_pairs_pairs)
 def test_basic(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
                                          Tuple[Scalar, Scalar]]) -> None:
-    (left, left_tail), (right, right_tail) = scalars_pairs_pair
+    (left_tail, left), (right_tail, right) = scalars_pairs_pair
 
     result = two_two_sum(left_tail, left, right_tail, right)
 
@@ -25,7 +25,7 @@ def test_basic(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
 @given(strategies.non_overlapping_scalars_pairs_pairs)
 def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
                                               Tuple[Scalar, Scalar]]) -> None:
-    (left, left_tail), (right, right_tail) = scalars_pairs_pair
+    (left_tail, left), (right_tail, right) = scalars_pairs_pair
 
     result = two_two_sum(left_tail, left, right_tail, right)
 
@@ -35,15 +35,15 @@ def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
 
 @given(strategies.non_overlapping_scalars_pairs)
 def test_left_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
-    scalar, scalar_tail = scalars_pair
+    scalar_tail, scalar = scalars_pair
 
     assert (two_two_sum(scalar_tail, scalar, 0, 0)
-            == (0, 0, *reversed(two_sum(scalar, scalar_tail))))
+            == (0, 0, *two_sum(scalar_tail, scalar)))
 
 
 @given(strategies.non_overlapping_scalars_pairs)
 def test_right_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
-    scalar, scalar_tail = scalars_pair
+    scalar_tail, scalar = scalars_pair
 
     assert (two_two_sum(0, 0, scalar_tail, scalar)
-            == (0, 0, *reversed(two_sum(scalar, scalar_tail))))
+            == (0, 0, *two_sum(scalar_tail, scalar)))
