@@ -23,7 +23,7 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    estimation, tail = two_diff(left, right)
+    tail, estimation = two_diff(left, right)
 
     assert estimation + tail == left - right
     assert abs(estimation) >= abs(tail)
