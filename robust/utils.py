@@ -58,9 +58,9 @@ def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
 
 def two_two_diff(left_tail: Scalar, left: Scalar, right_tail: Scalar,
                  right: Scalar) -> Tuple[Scalar, Scalar, Scalar, Scalar]:
-    interim, interim_tail, third_tail = two_one_diff(left, left_tail,
+    interim, interim_tail, third_tail = two_one_diff(left_tail, left,
                                                      right_tail)
-    estimation, first_tail, second_tail = two_one_diff(interim, interim_tail,
+    estimation, first_tail, second_tail = two_one_diff(interim_tail, interim,
                                                        right)
     return third_tail, second_tail, first_tail, estimation
 
@@ -81,7 +81,7 @@ def two_one_sum(left_tail: Scalar, left: Scalar,
     return estimation, first_tail, second_tail
 
 
-def two_one_diff(left: Scalar, left_tail: Scalar,
+def two_one_diff(left_tail: Scalar, left: Scalar,
                  right: Scalar) -> Tuple[Scalar, Scalar, Scalar]:
     interim, second_tail = two_diff(left_tail, right)
     estimation, first_tail = two_sum(left, interim)
