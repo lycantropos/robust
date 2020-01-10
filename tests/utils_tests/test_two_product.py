@@ -5,7 +5,8 @@ from hypothesis import given
 from robust.hints import Scalar
 from robust.utils import two_product
 from tests import strategies
-from tests.utils import are_non_overlapping_numbers
+from tests.utils import (is_non_overlapping_expansion,
+                         is_sorted_by_magnitude_expansion)
 
 
 @given(strategies.scalars_pairs)
@@ -23,11 +24,11 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    tail, estimation = two_product(left, right)
+    result = two_product(left, right)
 
-    assert estimation + tail == left * right
-    assert abs(tail) <= abs(estimation)
-    assert are_non_overlapping_numbers(estimation, tail)
+    assert sum(result) == left * right
+    assert is_sorted_by_magnitude_expansion(result)
+    assert is_non_overlapping_expansion(result)
 
 
 @given(strategies.scalars)
