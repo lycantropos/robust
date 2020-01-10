@@ -22,7 +22,7 @@ def two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     right_tail = right - right_virtual
     left_tail = left - left_virtual
     tail = left_tail + right_tail
-    return estimation, tail
+    return tail, estimation
 
 
 def split(value: Scalar,
@@ -76,8 +76,8 @@ def two_two_sum(left_tail: Scalar, left: Scalar, right_tail: Scalar,
 
 def two_one_sum(left_tail: Scalar, left: Scalar,
                 right: Scalar) -> Tuple[Scalar, Scalar, Scalar]:
-    interim, second_tail = two_sum(left_tail, right)
-    estimation, first_tail = two_sum(left, interim)
+    second_tail, interim = two_sum(left_tail, right)
+    first_tail, estimation = two_sum(left, interim)
     return estimation, first_tail, second_tail
 
 
@@ -153,14 +153,14 @@ def sum_expansions(left_expansion: Expansion,
         while (left_index < left_length) and (right_index < right_length):
             if ((right_element > left_element)
                     is (right_element > -left_element)):
-                accumulator, tail = two_sum(accumulator, left_element)
+                tail, accumulator = two_sum(accumulator, left_element)
                 left_index += 1
                 try:
                     left_element = left_expansion[left_index]
                 except IndexError:
                     pass
             else:
-                accumulator, tail = two_sum(accumulator, right_element)
+                tail, accumulator = two_sum(accumulator, right_element)
                 right_index += 1
                 try:
                     right_element = right_expansion[right_index]
@@ -169,7 +169,7 @@ def sum_expansions(left_expansion: Expansion,
             if tail:
                 result.append(tail)
     while left_index < left_length:
-        accumulator, tail = two_sum(accumulator, left_element)
+        tail, accumulator = two_sum(accumulator, left_element)
         left_index += 1
         try:
             left_element = left_expansion[left_index]
@@ -178,7 +178,7 @@ def sum_expansions(left_expansion: Expansion,
         if tail:
             result.append(tail)
     while right_index < right_length:
-        accumulator, tail = two_sum(accumulator, right_element)
+        tail, accumulator = two_sum(accumulator, right_element)
         right_index += 1
         try:
             right_element = right_expansion[right_index]
@@ -205,7 +205,7 @@ def scale_expansion(expansion: Expansion, scalar: Scalar) -> Expansion:
     for element in expansion:
         product, product_tail = two_product_presplit(element, scalar,
                                                      scalar_low, scalar_high)
-        interim, tail = two_sum(accumulator, product_tail)
+        tail, interim = two_sum(accumulator, product_tail)
         if tail:
             result.append(tail)
         accumulator, tail = fast_two_sum(product, interim)
