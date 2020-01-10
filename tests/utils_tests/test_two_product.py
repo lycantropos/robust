@@ -23,10 +23,10 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    estimation, tail = two_product(left, right)
+    tail, estimation = two_product(left, right)
 
     assert estimation + tail == left * right
-    assert abs(estimation) >= abs(tail)
+    assert abs(tail) <= abs(estimation)
     assert are_non_overlapping_numbers(estimation, tail)
 
 
