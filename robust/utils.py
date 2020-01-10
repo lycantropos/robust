@@ -107,7 +107,7 @@ def square(value: Scalar) -> Tuple[Scalar, Scalar]:
     first_error = estimation - value_high * value_high
     second_error = first_error - (value_high + value_high) * value_low
     tail = value_low * value_low - second_error
-    return estimation, tail
+    return tail, estimation
 
 
 def sum_expansions(left_expansion: Expansion,

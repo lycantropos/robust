@@ -394,7 +394,7 @@ def _to_addend(left_dx: Scalar, left_dx_tail: Scalar,
 
 
 def _to_squared_length(dx: Scalar, dy: Scalar) -> Expansion:
-    dx_squared, dx_squared_tail = square(dx)
-    dy_squared, dy_squared_tail = square(dy)
+    dx_squared_tail, dx_squared = square(dx)
+    dy_squared_tail, dy_squared = square(dy)
     return two_two_sum(dx_squared_tail, dx_squared, dy_squared_tail,
                        dy_squared)
