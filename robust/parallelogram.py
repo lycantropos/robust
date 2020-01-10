@@ -55,9 +55,9 @@ def _adjusted_signed_area(first_start: Point,
     subtrahend_multiplier_x = second_end[X] - second_start[X]
     subtrahend_multiplier_y = first_end[Y] - first_start[Y]
 
-    minuend, minuend_tail = two_product(minuend_multiplier_x,
+    minuend_tail, minuend = two_product(minuend_multiplier_x,
                                         minuend_multiplier_y)
-    subtrahend, subtrahend_tail = two_product(subtrahend_multiplier_y,
+    subtrahend_tail, subtrahend = two_product(subtrahend_multiplier_y,
                                               subtrahend_multiplier_x)
 
     result_expansion = two_two_diff(minuend_tail, minuend, subtrahend_tail,

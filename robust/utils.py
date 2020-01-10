@@ -53,7 +53,7 @@ def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     second_error = first_error - left_low * right_high
     third_error = second_error - left_high * right_low
     tail = left_low * right_low - third_error
-    return estimation, tail
+    return tail, estimation
 
 
 def two_two_diff(left_tail: Scalar, left: Scalar, right_tail: Scalar,
@@ -223,9 +223,9 @@ def to_cross_product(minuend_multiplier_x: Scalar,
     """
     Returns expansion of vectors' planar cross product.
     """
-    minuend, minuend_tail = two_product(minuend_multiplier_x,
+    minuend_tail, minuend = two_product(minuend_multiplier_x,
                                         minuend_multiplier_y)
-    subtrahend, subtrahend_tail = two_product(subtrahend_multiplier_y,
+    subtrahend_tail, subtrahend = two_product(subtrahend_multiplier_y,
                                               subtrahend_multiplier_x)
     return two_two_diff(minuend_tail, minuend, subtrahend_tail, subtrahend)
 

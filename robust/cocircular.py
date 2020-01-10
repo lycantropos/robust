@@ -347,13 +347,13 @@ def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
                       right_dx: Scalar, right_dx_tail: Scalar,
                       right_dy: Scalar, right_dy_tail: Scalar
                       ) -> Tuple[Expansion, Expansion]:
-    left_dx_tail_right_dy, left_dx_tail_right_dy_tail = two_product(
+    left_dx_tail_right_dy_tail, left_dx_tail_right_dy = two_product(
             left_dx_tail, right_dy)
-    left_dx_right_dy_tail, left_dx_right_dy_tail_tail = two_product(
+    left_dx_right_dy_tail_tail, left_dx_right_dy_tail = two_product(
             left_dx, right_dy_tail)
-    minus_right_dx_tail_left_dy, minus_right_dx_tail_left_dy_tail = (
+    minus_right_dx_tail_left_dy_tail, minus_right_dx_tail_left_dy = (
         two_product(right_dx_tail, -left_dy))
-    minus_right_dx_left_dy_tail, minus_right_dx_left_dy_tail_tail = (
+    minus_right_dx_left_dy_tail_tail, minus_right_dx_left_dy_tail = (
         two_product(right_dx, -left_dy_tail))
     estimation = sum_expansions(two_two_sum(left_dx_tail_right_dy_tail,
                                             left_dx_tail_right_dy,
@@ -363,9 +363,9 @@ def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
                                             minus_right_dx_tail_left_dy,
                                             minus_right_dx_left_dy_tail_tail,
                                             minus_right_dx_left_dy_tail))
-    left_dx_tail_right_dy_tail, left_dx_tail_right_dy_tail_tail = two_product(
+    left_dx_tail_right_dy_tail_tail, left_dx_tail_right_dy_tail = two_product(
             left_dx_tail, right_dy_tail)
-    right_dx_tail_left_dy_tail, right_dx_tail_left_dy_tail_tail = two_product(
+    right_dx_tail_left_dy_tail_tail, right_dx_tail_left_dy_tail = two_product(
             right_dx_tail, left_dy_tail)
     tail = two_two_diff(left_dx_tail_right_dy_tail_tail,
                         left_dx_tail_right_dy_tail,
