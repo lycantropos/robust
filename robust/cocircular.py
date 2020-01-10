@@ -367,10 +367,10 @@ def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
             left_dx_tail, right_dy_tail)
     right_dx_tail_left_dy_tail, right_dx_tail_left_dy_tail_tail = two_product(
             right_dx_tail, left_dy_tail)
-    tail = two_two_diff(left_dx_tail_right_dy_tail,
-                        left_dx_tail_right_dy_tail_tail,
-                        right_dx_tail_left_dy_tail,
-                        right_dx_tail_left_dy_tail_tail)
+    tail = two_two_diff(left_dx_tail_right_dy_tail_tail,
+                        left_dx_tail_right_dy_tail,
+                        right_dx_tail_left_dy_tail_tail,
+                        right_dx_tail_left_dy_tail)
     return estimation, tail
 
 

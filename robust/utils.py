@@ -56,9 +56,8 @@ def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     return estimation, tail
 
 
-def two_two_diff(left: Scalar, left_tail: Scalar,
-                 right: Scalar, right_tail: Scalar
-                 ) -> Tuple[Scalar, Scalar, Scalar, Scalar]:
+def two_two_diff(left_tail: Scalar, left: Scalar, right_tail: Scalar,
+                 right: Scalar) -> Tuple[Scalar, Scalar, Scalar, Scalar]:
     interim, interim_tail, third_tail = two_one_diff(left, left_tail,
                                                      right_tail)
     estimation, first_tail, second_tail = two_one_diff(interim, interim_tail,
@@ -230,7 +229,7 @@ def to_cross_product(minuend_multiplier_x: Scalar,
                                         minuend_multiplier_y)
     subtrahend, subtrahend_tail = two_product(subtrahend_multiplier_y,
                                               subtrahend_multiplier_x)
-    return two_two_diff(minuend, minuend_tail, subtrahend, subtrahend_tail)
+    return two_two_diff(minuend_tail, minuend, subtrahend_tail, subtrahend)
 
 
 def to_perpendicular_point(point: Point) -> Point:

@@ -60,8 +60,8 @@ def _adjusted_signed_area(first_start: Point,
     subtrahend, subtrahend_tail = two_product(subtrahend_multiplier_y,
                                               subtrahend_multiplier_x)
 
-    result_expansion = two_two_diff(minuend, minuend_tail,
-                                    subtrahend, subtrahend_tail)
+    result_expansion = two_two_diff(minuend_tail, minuend, subtrahend_tail,
+                                    subtrahend)
     result = sum(result_expansion)
     error_bound = bounds.to_signed_measure_second_error(upper_bound)
     if result >= error_bound or -result >= error_bound:
