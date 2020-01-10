@@ -2,14 +2,26 @@ import sys
 from decimal import Decimal
 from fractions import Fraction
 from functools import partial
-from typing import (Optional,
+from types import MappingProxyType
+from typing import (Any,
+                    Callable,
+                    Dict,
+                    Iterable,
+                    Optional,
                     SupportsFloat,
                     Tuple)
 
 from hypothesis import strategies
 
 from robust.hints import Scalar
-from tests.utils import (Strategy,
+from robust.utils import (split,
+                          square,
+                          two_diff,
+                          two_product,
+                          two_sum)
+from tests.utils import (Domain,
+                         Range,
+                         Strategy,
                          identity)
 
 MAX_DIGITS_COUNT = sys.float_info.dig
@@ -110,14 +122,55 @@ scalars_strategies = strategies.sampled_from(
         [factory() for factory in scalars_strategies_factories.values()])
 
 
-def to_scalars_pairs(scalars: Strategy[Scalar]
-                     ) -> Strategy[Tuple[Scalar, Scalar]]:
-    return strategies.tuples(scalars, scalars)
+def to_pairs(strategy: Strategy[Scalar]) -> Strategy[Tuple[Scalar, Scalar]]:
+    return strategies.tuples(strategy, strategy)
 
 
 scalars = scalars_strategies.flatmap(identity)
-scalars_pairs = points = scalars_strategies.flatmap(to_scalars_pairs)
+scalars_pairs = points = scalars_strategies.flatmap(to_pairs)
 reverse_sorted_by_modulus_scalars_pairs = (scalars_pairs
                                            .map(partial(sorted,
                                                         key=abs,
                                                         reverse=True)))
+
+
+def to_builder(function: Callable[[Domain], Range]
+               ) -> Callable[[Strategy[Domain]], Strategy[Range]]:
+    return partial(strategies.builds, function)
+
+
+def extend_function(function: Callable[[Domain], Range]
+                    ) -> Callable[[Tuple[Domain, ...]], Tuple[Range]]:
+    return partial(tuple_map, function)
+
+
+def tuple_map(function: Callable[[Domain], Range],
+              values: Tuple[Domain, ...]) -> Tuple[Range, ...]:
+    return tuple(map(function, values))
+
+
+def pack(function: Callable[..., Range]
+         ) -> Callable[[Iterable[Domain]], Range]:
+    return partial(apply, function)
+
+
+def apply(function: Callable[..., Range],
+          args: Iterable[Domain],
+          kwargs: Dict[str, Any] = MappingProxyType({})) -> Range:
+    return function(*args, **kwargs)
+
+
+scalars_pairs_strategies = scalars_strategies.map(to_pairs)
+non_overlapping_scalars_pairs = strategies.one_of(
+        scalars_strategies.flatmap(to_builder(split)),
+        scalars_strategies.flatmap(to_builder(square)),
+        *[(scalars_pairs_strategies
+           .flatmap(to_builder(pack(function))))
+          for function in (two_diff, two_product, two_sum)])
+non_overlapping_scalars_pairs_pairs = strategies.one_of(
+        scalars_pairs_strategies.flatmap(to_builder(extend_function(split))),
+        scalars_pairs_strategies.flatmap(to_builder(extend_function(square))),
+        *[(scalars_pairs_strategies
+           .map(to_pairs)
+           .flatmap(to_builder(extend_function(pack(function)))))
+          for function in (two_diff, two_product, two_sum)])

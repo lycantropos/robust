@@ -1,12 +1,15 @@
+from itertools import combinations
 from typing import (Callable,
                     Tuple,
                     TypeVar)
 
 from hypothesis.strategies import SearchStrategy
 
-from robust.hints import Scalar
+from robust.hints import (Expansion,
+                          Scalar)
 
 Domain = TypeVar('Domain')
+Range = TypeVar('Range')
 Strategy = SearchStrategy
 
 
@@ -16,6 +19,16 @@ def implication(antecedent: bool, consequent: bool) -> bool:
 
 def identity(value: Domain) -> Domain:
     return value
+
+
+def is_sorted_by_magnitude_expansion(expansion: Expansion) -> bool:
+    return all(abs(element) <= abs(next_element) or next_element == 0
+               for element, next_element in zip(expansion, expansion[1:]))
+
+
+def is_non_overlapping_expansion(expansion: Expansion) -> bool:
+    return all(are_non_overlapping_numbers(element, other_element)
+               for element, other_element in combinations(expansion, 2))
 
 
 def are_non_overlapping_numbers(left: Scalar, right: Scalar) -> bool:
