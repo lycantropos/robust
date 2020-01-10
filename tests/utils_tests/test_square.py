@@ -3,7 +3,8 @@ from hypothesis import given
 from robust.hints import Scalar
 from robust.utils import square
 from tests import strategies
-from tests.utils import are_non_overlapping_numbers
+from tests.utils import (is_non_overlapping_expansion,
+                         is_sorted_by_magnitude_expansion)
 
 
 @given(strategies.scalars)
@@ -17,8 +18,8 @@ def test_basic(scalar: Scalar) -> None:
 
 @given(strategies.scalars)
 def test_properties(scalar: Scalar) -> None:
-    tail, estimation = square(scalar)
+    result = square(scalar)
 
-    assert estimation + tail == scalar ** 2
-    assert abs(estimation) >= abs(tail)
-    assert are_non_overlapping_numbers(estimation, tail)
+    assert sum(result) == scalar ** 2
+    assert is_sorted_by_magnitude_expansion(result)
+    assert is_non_overlapping_expansion(result)
