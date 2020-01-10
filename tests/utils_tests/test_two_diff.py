@@ -5,7 +5,8 @@ from hypothesis import given
 from robust.hints import Scalar
 from robust.utils import two_diff
 from tests import strategies
-from tests.utils import are_non_overlapping_numbers
+from tests.utils import (is_non_overlapping_expansion,
+                         is_sorted_by_magnitude_expansion)
 
 
 @given(strategies.scalars_pairs)
@@ -23,13 +24,13 @@ def test_basic(scalars_pair: Tuple[Scalar, Scalar]) -> None:
 def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     left, right = scalars_pair
 
-    tail, estimation = two_diff(left, right)
+    result = two_diff(left, right)
 
-    assert estimation + tail == left - right
-    assert abs(estimation) >= abs(tail)
-    assert are_non_overlapping_numbers(estimation, tail)
+    assert sum(result) == left - right
+    assert is_sorted_by_magnitude_expansion(result)
+    assert is_non_overlapping_expansion(result)
 
 
 @given(strategies.scalars)
 def test_right_neutral_element(scalar: Scalar) -> None:
-    assert two_diff(scalar, 0) == (scalar, 0)
+    assert two_diff(scalar, 0) == (0, scalar)
