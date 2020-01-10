@@ -2,12 +2,14 @@ import sys
 from decimal import Decimal
 from fractions import Fraction
 from functools import partial
+from itertools import product
 from types import MappingProxyType
 from typing import (Any,
                     Callable,
                     Dict,
                     Iterable,
                     Optional,
+                    Sequence,
                     SupportsFloat,
                     Tuple)
 
@@ -161,16 +163,63 @@ def apply(function: Callable[..., Range],
 
 
 scalars_pairs_strategies = scalars_strategies.map(to_pairs)
+unary_expanding_functions = (split, square)
+binary_expanding_functions = (two_diff, two_product, two_sum)
 non_overlapping_scalars_pairs = strategies.one_of(
-        scalars_strategies.flatmap(to_builder(split)),
-        scalars_strategies.flatmap(to_builder(square)),
-        *[(scalars_pairs_strategies
-           .flatmap(to_builder(pack(function))))
-          for function in (two_diff, two_product, two_sum)])
+        [scalars_strategies.flatmap(to_builder(function))
+         for function in unary_expanding_functions]
+        + [scalars_pairs_strategies.flatmap(to_builder(pack(function)))
+           for function in binary_expanding_functions])
 non_overlapping_scalars_pairs_pairs = strategies.one_of(
         scalars_pairs_strategies.flatmap(to_builder(extend_function(split))),
         scalars_pairs_strategies.flatmap(to_builder(extend_function(square))),
         *[(scalars_pairs_strategies
            .map(to_pairs)
            .flatmap(to_builder(extend_function(pack(function)))))
-          for function in (two_diff, two_product, two_sum)])
+          for function in binary_expanding_functions])
+
+
+def cleavage(functions: Tuple[Callable[[Domain], Range], ...],
+             *args: Domain, **kwargs: Domain) -> Tuple[Range, ...]:
+    return tuple(function(*args, **kwargs) for function in functions)
+
+
+def cleave(*functions: Callable[[Domain], Range]
+           ) -> Callable[[Tuple[Domain, ...]], Tuple[Range, ...]]:
+    return partial(cleavage, functions)
+
+
+def combination(functions: Tuple[Callable[[Domain], Range], ...],
+                arguments: Tuple[Domain, ...]) -> Tuple[Range, ...]:
+    return tuple(function(argument)
+                 for function, argument in zip(functions, arguments))
+
+
+def combine(*functions: Callable[[Domain], Range]
+            ) -> Callable[[Tuple[Domain, ...]], Tuple[Range, ...]]:
+    return partial(combination, functions)
+
+
+def composition(functions: Tuple[Callable[[Domain], Range], ...],
+                *args: Domain, **kwargs: Domain) -> Range:
+    result = functions[-1](*args, **kwargs)
+    for function in reversed(functions[:-1]):
+        result = function(result)
+    return result
+
+
+def compose(*functions: Callable[..., Range]) -> Callable[..., Range]:
+    return partial(composition, functions)
+
+
+def expand(value: Domain) -> Sequence[Domain]:
+    return value,
+
+
+unary_expanding_functions = (expand,) + unary_expanding_functions
+expansions_with_scales = strategies.one_of(
+        [scalars_strategies.flatmap(compose(pack(strategies.tuples),
+                                            cleave(builder, identity)))
+         for builder in (tuple_map(to_builder, unary_expanding_functions)
+                         + tuple(compose(to_builder(pack(function)), to_pairs)
+                                 for function in binary_expanding_functions))])
