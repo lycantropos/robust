@@ -129,6 +129,9 @@ def to_pairs(strategy: Strategy[Scalar]) -> Strategy[Tuple[Scalar, Scalar]]:
 
 
 scalars = scalars_strategies.flatmap(identity)
+zeros_with_scalars = strategies.one_of(
+        [strategies.tuples(strategies.builds(type_), factory())
+         for type_, factory in scalars_strategies_factories.items()])
 scalars_pairs = points = scalars_strategies.flatmap(to_pairs)
 reverse_sorted_by_modulus_scalars_pairs = (scalars_pairs
                                            .map(partial(sorted,
@@ -220,6 +223,12 @@ unary_expanding_functions = (expand,) + unary_expanding_functions
 expansions_builders = (tuple_map(to_builder, unary_expanding_functions)
                        + tuple(compose(to_builder(pack(function)), to_pairs)
                                for function in binary_expanding_functions))
+zero_expansions_with_scalars = (zeros_with_scalars
+                                .map(combine(expand, identity)))
+expansions_with_zeros = strategies.one_of(
+        [strategies.tuples(builder(factory()), strategies.builds(type_))
+         for type_, factory in scalars_strategies_factories.items()
+         for builder in expansions_builders])
 expansions_with_scales = strategies.one_of(
         [scalars_strategies.flatmap(compose(pack(strategies.tuples),
                                             cleave(builder, identity)))

@@ -31,3 +31,25 @@ def test_properties(expansion_with_scale: Tuple[Expansion, Scalar]) -> None:
     assert is_sorted_by_magnitude_expansion(result,
                                             zero_eliminated=True)
     assert is_non_overlapping_expansion(result)
+
+
+@given(strategies.zero_expansions_with_scalars)
+def test_left_absorbing_element(zero_expansion_with_scalar: Tuple[Expansion,
+                                                                  Scalar]
+                                ) -> None:
+    zero_expansion, scalar = zero_expansion_with_scalar
+
+    result = scale_expansion(zero_expansion, scalar)
+
+    assert len(result) == 1
+    assert all(not element for element in result)
+
+
+@given(strategies.expansions_with_zeros)
+def test_right_absorbing_element(expansion_with_zero: Expansion) -> None:
+    expansion, zero = expansion_with_zero
+
+    result = scale_expansion(expansion, zero)
+
+    assert len(result) == 1
+    assert all(not element for element in result)
