@@ -21,8 +21,11 @@ def identity(value: Domain) -> Domain:
     return value
 
 
-def is_sorted_by_magnitude_expansion(expansion: Expansion) -> bool:
-    return all(abs(element) <= abs(next_element) or next_element == 0
+def is_sorted_by_magnitude_expansion(expansion: Expansion,
+                                     *,
+                                     zero_eliminated: bool = False) -> bool:
+    return all(abs(element) <= abs(next_element)
+               or not zero_eliminated and next_element == 0
                for element, next_element in zip(expansion, expansion[1:]))
 
 

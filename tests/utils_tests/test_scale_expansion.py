@@ -28,5 +28,6 @@ def test_properties(expansion_with_scale: Tuple[Expansion, Scalar]) -> None:
 
     result = scale_expansion(expansion, scale)
 
-    assert is_sorted_by_magnitude_expansion(result)
+    assert is_sorted_by_magnitude_expansion(result,
+                                            zero_eliminated=True)
     assert is_non_overlapping_expansion(result)
