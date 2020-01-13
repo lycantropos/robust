@@ -1,8 +1,14 @@
+from functools import partial
 from itertools import combinations
-from typing import (Callable,
+from types import MappingProxyType
+from typing import (Any,
+                    Callable,
+                    Dict,
+                    Iterable,
                     Tuple,
                     TypeVar)
 
+from hypothesis import strategies
 from hypothesis.strategies import SearchStrategy
 
 from robust.hints import (Expansion,
@@ -19,6 +25,69 @@ def implication(antecedent: bool, consequent: bool) -> bool:
 
 def identity(value: Domain) -> Domain:
     return value
+
+
+def extend_function(function: Callable[[Domain], Range]
+                    ) -> Callable[[Tuple[Domain, ...]], Tuple[Range]]:
+    return partial(tuple_map, function)
+
+
+def tuple_map(function: Callable[[Domain], Range],
+              values: Tuple[Domain, ...]) -> Tuple[Range, ...]:
+    return tuple(map(function, values))
+
+
+def pack(function: Callable[..., Range]
+         ) -> Callable[[Iterable[Domain]], Range]:
+    return partial(apply, function)
+
+
+def apply(function: Callable[..., Range],
+          args: Iterable[Domain],
+          kwargs: Dict[str, Any] = MappingProxyType({})) -> Range:
+    return function(*args, **kwargs)
+
+
+def cleavage(functions: Tuple[Callable[[Domain], Range], ...],
+             *args: Domain, **kwargs: Domain) -> Tuple[Range, ...]:
+    return tuple(function(*args, **kwargs) for function in functions)
+
+
+def cleave(*functions: Callable[[Domain], Range]
+           ) -> Callable[[Tuple[Domain, ...]], Tuple[Range, ...]]:
+    return partial(cleavage, functions)
+
+
+def combination(functions: Tuple[Callable[[Domain], Range], ...],
+                arguments: Tuple[Domain, ...]) -> Tuple[Range, ...]:
+    return tuple(function(argument)
+                 for function, argument in zip(functions, arguments))
+
+
+def combine(*functions: Callable[[Domain], Range]
+            ) -> Callable[[Tuple[Domain, ...]], Tuple[Range, ...]]:
+    return partial(combination, functions)
+
+
+def composition(functions: Tuple[Callable[[Domain], Range], ...],
+                *args: Domain, **kwargs: Domain) -> Range:
+    result = functions[-1](*args, **kwargs)
+    for function in reversed(functions[:-1]):
+        result = function(result)
+    return result
+
+
+def compose(*functions: Callable[..., Range]) -> Callable[..., Range]:
+    return partial(composition, functions)
+
+
+def to_pairs(strategy: Strategy[Scalar]) -> Strategy[Tuple[Scalar, Scalar]]:
+    return strategies.tuples(strategy, strategy)
+
+
+def to_builder(function: Callable[[Domain], Range]
+               ) -> Callable[[Strategy[Domain]], Strategy[Range]]:
+    return partial(strategies.builds, function)
 
 
 def is_sorted_by_magnitude_expansion(expansion: Expansion,

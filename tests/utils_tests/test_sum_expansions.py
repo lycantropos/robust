@@ -4,9 +4,9 @@ from hypothesis import given
 
 from robust.hints import Expansion
 from robust.utils import sum_expansions
-from tests import strategies
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
+from . import strategies
 
 
 @given(strategies.expansions_pairs)

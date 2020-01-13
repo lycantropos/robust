@@ -2,9 +2,9 @@ from hypothesis import given
 
 from robust.hints import Scalar
 from robust.utils import square
-from tests import strategies
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
+from . import strategies
 
 
 @given(strategies.scalars)
