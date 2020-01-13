@@ -1,5 +1,5 @@
 from functools import partial
-from itertools import combinations
+from itertools import combinations, repeat
 from types import MappingProxyType
 from typing import (Any,
                     Callable,
@@ -81,8 +81,19 @@ def compose(*functions: Callable[..., Range]) -> Callable[..., Range]:
     return partial(composition, functions)
 
 
-def to_pairs(strategy: Strategy[Scalar]) -> Strategy[Tuple[Scalar, Scalar]]:
-    return strategies.tuples(strategy, strategy)
+def to_tuples(elements: Strategy[Domain],
+              *,
+              size: int) -> Strategy[Tuple[Domain, ...]]:
+    return strategies.tuples(*repeat(elements,
+                                     times=size))
+
+
+to_pairs = partial(to_tuples,
+                   size=2)
+to_triplets = partial(to_tuples,
+                      size=3)
+to_quadruples = partial(to_tuples,
+                        size=4)
 
 
 def to_builder(function: Callable[[Domain], Range]

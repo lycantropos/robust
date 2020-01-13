@@ -20,10 +20,12 @@ from tests.utils import (Domain,
                          pack,
                          to_builder,
                          to_pairs,
+                         to_quadruples,
                          tuple_map)
 
 scalars = scalars_strategies.flatmap(identity)
 scalars_pairs = scalars_strategies.flatmap(to_pairs)
+scalars_quadruples = scalars_strategies.flatmap(to_quadruples)
 zeros_with_scalars = strategies.one_of(
         [strategies.tuples(strategies.builds(type_), factory())
          for type_, factory in scalars_strategies_factories.items()])
