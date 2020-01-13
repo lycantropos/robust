@@ -29,13 +29,3 @@ def test_properties(scalars_pair: Tuple[Scalar, Scalar]) -> None:
     assert sum(result) == left * right
     assert is_sorted_by_magnitude_expansion(result)
     assert is_non_overlapping_expansion(result)
-
-
-@given(strategies.scalars)
-def test_left_absorbing_element(scalar: Scalar) -> None:
-    assert two_product(0, scalar) == (0, 0)
-
-
-@given(strategies.scalars)
-def test_right_absorbing_element(scalar: Scalar) -> None:
-    assert two_product(scalar, 0) == (0, 0)
