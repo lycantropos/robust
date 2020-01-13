@@ -3,8 +3,7 @@ from typing import Tuple
 from hypothesis import given
 
 from robust.hints import Scalar
-from robust.utils import (two_sum,
-                          two_two_diff)
+from robust.utils import two_two_diff
 from tests import strategies
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
@@ -31,11 +30,3 @@ def test_properties(scalars_pairs_pair: Tuple[Tuple[Scalar, Scalar],
 
     assert is_sorted_by_magnitude_expansion(result)
     assert is_non_overlapping_expansion(result)
-
-
-@given(strategies.non_overlapping_scalars_pairs)
-def test_right_neutral_element(scalars_pair: Tuple[Scalar, Scalar]) -> None:
-    scalar_tail, scalar = scalars_pair
-
-    assert (two_two_diff(scalar_tail, scalar, 0, 0)
-            == (0, 0, *two_sum(scalar_tail, scalar)))
