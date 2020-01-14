@@ -24,6 +24,10 @@ Scalar = TypeVar('Scalar', Real, Decimal)
 Strategy = SearchStrategy
 
 
+def equivalence(left_statement: bool, right_statement: bool) -> bool:
+    return left_statement is right_statement
+
+
 def identity(value: Domain) -> Domain:
     return value
 
