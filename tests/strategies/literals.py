@@ -98,9 +98,13 @@ def to_decimal(number: SupportsFloat) -> Decimal:
     return Decimal(number)
 
 
-scalars_strategies_factories = {Decimal: to_decimals,
-                                float: to_floats,
-                                Fraction: to_fractions,
-                                int: to_integers}
+non_decimal_scalars_strategies_factories = {float: to_floats,
+                                            Fraction: to_fractions,
+                                            int: to_integers}
+scalars_strategies_factories = {**non_decimal_scalars_strategies_factories,
+                                Decimal: to_decimals}
+non_decimal_scalars_strategies = strategies.sampled_from(
+        [factory()
+         for factory in non_decimal_scalars_strategies_factories.values()])
 scalars_strategies = strategies.sampled_from(
         [factory() for factory in scalars_strategies_factories.values()])

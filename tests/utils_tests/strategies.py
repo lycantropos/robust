@@ -9,8 +9,9 @@ from robust.utils import (split,
                           two_diff,
                           two_product,
                           two_sum)
-from tests.strategies import (scalars_strategies,
-                              scalars_strategies_factories)
+from tests.strategies import (
+    non_decimal_scalars_strategies as scalars_strategies,
+    non_decimal_scalars_strategies_factories as scalars_strategies_factories)
 from tests.utils import (Domain,
                          cleave,
                          combine,
