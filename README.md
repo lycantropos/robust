@@ -81,6 +81,8 @@ Usage
 4
 >>> parallelogram.signed_area((0, 0), (0, 2), (0, 0), (2, 0))
 -4
+>>> parallelogram.signed_area((0, 0), (0, 2), (0, 0), (0, 2))
+0
 >>> from robust import projection
 >>> projection.signed_length((0, 0), (2, 0), (0, 0), (2, 0))
 4
