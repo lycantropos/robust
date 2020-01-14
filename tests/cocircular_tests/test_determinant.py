@@ -5,9 +5,7 @@ from hypothesis import given
 
 from robust.cocircular import determinant
 from robust.hints import Point
-from tests.utils import (equivalence,
-                         implication,
-                         is_even_permutation,
+from tests.utils import (is_even_permutation,
                          permute,
                          to_sign)
 from . import strategies
@@ -38,16 +36,8 @@ def test_permutations(points_quadruple: Tuple[Point, Point, Point, Point]
     result = determinant(first_point, second_point, third_point, fourth_point)
 
     result_sign = to_sign(result)
-    assert implication(
-            bool(result_sign),
-            all(equivalence(to_sign(determinant(*permute(points_quadruple,
-                                                         permutation)))
-                            == result_sign,
-                            is_even_permutation(permutation))
-                for permutation in permutations(range(len(points_quadruple)))))
-    assert implication(
-            not result_sign,
-            all(to_sign(determinant(*permute(points_quadruple,
-                                             permutation)))
-                == result_sign
-                for permutation in permutations(range(len(points_quadruple)))))
+    assert all(to_sign(determinant(*permute(points_quadruple, permutation)))
+               == (result_sign
+                   if is_even_permutation(permutation)
+                   else -result_sign)
+               for permutation in permutations(range(len(points_quadruple))))

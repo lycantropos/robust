@@ -24,14 +24,6 @@ Scalar = TypeVar('Scalar', Real, Decimal)
 Strategy = SearchStrategy
 
 
-def implication(antecedent: bool, consequent: bool) -> bool:
-    return not antecedent or consequent
-
-
-def equivalence(left_statement: bool, right_statement: bool) -> bool:
-    return left_statement is right_statement
-
-
 def identity(value: Domain) -> Domain:
     return value
 
