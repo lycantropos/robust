@@ -1,5 +1,7 @@
 from functools import partial
-from itertools import combinations, repeat
+from itertools import (combinations,
+                       repeat)
+from numbers import Real
 from types import MappingProxyType
 from typing import (Any,
                     Callable,
@@ -11,8 +13,7 @@ from typing import (Any,
 from hypothesis import strategies
 from hypothesis.strategies import SearchStrategy
 
-from robust.hints import (Expansion,
-                          Scalar)
+from robust.hints import (Expansion)
 
 Domain = TypeVar('Domain')
 Range = TypeVar('Range')
@@ -114,9 +115,9 @@ def is_non_overlapping_expansion(expansion: Expansion) -> bool:
                for element, other_element in combinations(expansion, 2))
 
 
-def are_non_overlapping_numbers(left: Scalar, right: Scalar) -> bool:
-    left_binary, right_binary = (scalar_to_binary(abs(left)),
-                                 scalar_to_binary(abs(right)))
+def are_non_overlapping_numbers(left: Real, right: Real) -> bool:
+    left_binary, right_binary = (number_to_binary(abs(left)),
+                                 number_to_binary(abs(right)))
     left_whole_part, left_fractional_part = split_binary(left_binary)
     right_whole_part, right_fractional_part = split_binary(right_binary)
     return (are_non_overlapping_whole_parts(left_whole_part, right_whole_part)
@@ -145,7 +146,7 @@ def are_non_overlapping_fractional_parts(left: str, right: str) -> bool:
                                             right.ljust(max_length, '0')))
 
 
-def scalar_to_binary(number: Scalar) -> str:
+def number_to_binary(number: Real) -> str:
     if isinstance(number, int):
         return '{:b}'.format(number)
     else:
