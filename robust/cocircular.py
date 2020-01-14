@@ -1,10 +1,12 @@
 from functools import reduce
+from numbers import Real
 from typing import (Iterable,
                     Tuple)
 
 from . import bounds
 from .hints import (Expansion,
                     Point,
+                    RealPoint,
                     Scalar)
 from .utils import (X,
                     Y,
@@ -12,6 +14,7 @@ from .utils import (X,
                     square,
                     sum_expansions,
                     to_cross_product,
+                    to_real_point,
                     two_diff_tail,
                     two_product,
                     two_two_diff,
@@ -19,11 +22,15 @@ from .utils import (X,
 
 
 def determinant(first_point: Point, second_point: Point,
-                third_point: Point, fourth_point: Point) -> Scalar:
+                third_point: Point, fourth_point: Point) -> Real:
     """
     Calculates determinant of linear equations' system
     for checking if four points lie on the same circle.
     """
+    first_point, second_point, third_point, fourth_point = (
+        to_real_point(first_point), to_real_point(second_point),
+        to_real_point(third_point), to_real_point(fourth_point))
+
     first_dx, first_dy = (first_point[X] - fourth_point[X],
                           first_point[Y] - fourth_point[Y])
     second_dx, second_dy = (second_point[X] - fourth_point[X],
@@ -62,9 +69,9 @@ def determinant(first_point: Point, second_point: Point,
                                  upper_bound)
 
 
-def _adjusted_determinant(first_point: Point, second_point: Point,
-                          third_point: Point, fourth_point: Point,
-                          upper_bound: Scalar) -> Scalar:
+def _adjusted_determinant(first_point: RealPoint, second_point: RealPoint,
+                          third_point: RealPoint, fourth_point: RealPoint,
+                          upper_bound: Real) -> Real:
     first_dx, first_dy = (first_point[X] - fourth_point[X],
                           first_point[Y] - fourth_point[Y])
     second_dx, second_dy = (second_point[X] - fourth_point[X],

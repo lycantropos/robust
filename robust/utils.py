@@ -234,3 +234,13 @@ def to_cross_product(minuend_multiplier_x: Real,
 
 def to_perpendicular_point(point: Point) -> Point:
     return -point[Y], point[X]
+
+
+def to_real_point(point: Point) -> RealPoint:
+    return scalar_to_real(point[X]), scalar_to_real(point[Y])
+
+
+def scalar_to_real(scalar: Scalar) -> Real:
+    return (scalar
+            if isinstance(scalar, Real)
+            else float(scalar))

@@ -6,4 +6,5 @@ from typing import (Sequence,
 
 Scalar = TypeVar('Scalar', Real, Decimal)
 Point = Tuple[Scalar, Scalar]
+RealPoint = Tuple[Real, Real]
 Expansion = Sequence[Real]
