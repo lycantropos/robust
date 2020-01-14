@@ -5,8 +5,7 @@ from typing import (Iterable,
 
 from . import bounds
 from .hints import (Expansion,
-                    RealPoint,
-                    Scalar)
+                    RealPoint)
 from .utils import (X,
                     Y,
                     scale_expansion,
@@ -285,9 +284,9 @@ def _adjusted_determinant(first_point: RealPoint, second_point: RealPoint,
 
 
 def _to_dx_extras(expansion: Expansion,
-                  dx: Scalar, dx_tail: Scalar,
-                  left_dy_tail: Scalar, left_squared_length: Expansion,
-                  right_dy_tail: Scalar, right_squared_length: Expansion,
+                  dx: Real, dx_tail: Real,
+                  left_dy_tail: Real, left_squared_length: Expansion,
+                  right_dy_tail: Real, right_squared_length: Expansion,
                   left_right_crossed_tails: Expansion,
                   left_right_crossed_tails_tail: Expansion
                   ) -> Iterable[Expansion]:
@@ -312,7 +311,7 @@ def _to_dx_extras(expansion: Expansion,
 
 
 def _to_dy_extras(expansion: Expansion,
-                  dy: Scalar, dy_tail: Scalar,
+                  dy: Real, dy_tail: Real,
                   rest_crossed_tails: Expansion,
                   rest_crossed_tails_tail: Expansion) -> Iterable[Expansion]:
     dy_tail_rest_crossed_tails = scale_expansion(rest_crossed_tails, dy_tail)
@@ -328,9 +327,9 @@ def _to_dy_extras(expansion: Expansion,
 
 
 def _to_extra(expansion: Expansion,
-              coordinate: Scalar, coordinate_tail: Scalar,
-              left_coordinate: Scalar, left_squared_length: Expansion,
-              right_coordinate: Scalar, right_squared_length: Expansion
+              coordinate: Real, coordinate_tail: Real,
+              left_coordinate: Real, left_squared_length: Expansion,
+              right_coordinate: Real, right_squared_length: Expansion
               ) -> Expansion:
     second_addend = scale_expansion(scale_expansion(right_squared_length,
                                                     coordinate_tail),
@@ -343,10 +342,10 @@ def _to_extra(expansion: Expansion,
     return sum_expansions(subtrahend, minuend)
 
 
-def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
-                      left_dy: Scalar, left_dy_tail: Scalar,
-                      right_dx: Scalar, right_dx_tail: Scalar,
-                      right_dy: Scalar, right_dy_tail: Scalar
+def _to_crossed_tails(left_dx: Real, left_dx_tail: Real,
+                      left_dy: Real, left_dy_tail: Real,
+                      right_dx: Real, right_dx_tail: Real,
+                      right_dy: Real, right_dy_tail: Real
                       ) -> Tuple[Expansion, Expansion]:
     tail = two_two_diff(*two_product(left_dx_tail, right_dy_tail),
                         *two_product(right_dx_tail, left_dy_tail))
@@ -362,17 +361,17 @@ def _to_crossed_tails(left_dx: Scalar, left_dx_tail: Scalar,
 
 
 def _multiply_by_squared_length(expansion: Expansion,
-                                dx: Scalar, dy: Scalar) -> Expansion:
+                                dx: Real, dy: Real) -> Expansion:
     return sum_expansions(scale_expansion(scale_expansion(expansion, dx), dx),
                           scale_expansion(scale_expansion(expansion, dy), dy))
 
 
-def _to_addend(left_dx: Scalar, left_dx_tail: Scalar,
-               left_dy: Scalar, left_dy_tail: Scalar,
-               mid_dx: Scalar, mid_dx_tail: Scalar,
-               mid_dy: Scalar, mid_dy_tail: Scalar,
-               right_dx: Scalar, right_dx_tail: Scalar,
-               right_dy: Scalar, right_dy_tail: Scalar) -> Scalar:
+def _to_addend(left_dx: Real, left_dx_tail: Real,
+               left_dy: Real, left_dy_tail: Real,
+               mid_dx: Real, mid_dx_tail: Real,
+               mid_dy: Real, mid_dy_tail: Real,
+               right_dx: Real, right_dx_tail: Real,
+               right_dy: Real, right_dy_tail: Real) -> Real:
     return ((left_dx * left_dx + left_dy * left_dy)
             * ((mid_dx * right_dy_tail + right_dy * mid_dx_tail)
                - (mid_dy * right_dx_tail + right_dx * mid_dy_tail))
@@ -380,7 +379,7 @@ def _to_addend(left_dx: Scalar, left_dx_tail: Scalar,
             * (mid_dx * right_dy - mid_dy * right_dx))
 
 
-def _to_squared_length(dx: Scalar, dy: Scalar) -> Expansion:
+def _to_squared_length(dx: Real, dy: Real) -> Expansion:
     dx_squared_tail, dx_squared = square(dx)
     dy_squared_tail, dy_squared = square(dy)
     return two_two_sum(dx_squared_tail, dx_squared, dy_squared_tail,
