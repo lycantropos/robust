@@ -3,11 +3,13 @@ from functools import partial
 from itertools import (combinations,
                        repeat)
 from numbers import Real
+from operator import itemgetter
 from types import MappingProxyType
 from typing import (Any,
                     Callable,
                     Dict,
                     Iterable,
+                    Sequence,
                     Tuple,
                     TypeVar)
 
@@ -24,6 +26,10 @@ Strategy = SearchStrategy
 
 def implication(antecedent: bool, consequent: bool) -> bool:
     return not antecedent or consequent
+
+
+def equivalence(left_statement: bool, right_statement: bool) -> bool:
+    return left_statement is right_statement
 
 
 def identity(value: Domain) -> Domain:
@@ -181,3 +187,31 @@ def float_to_binary(number: float,
               + ''.join(map(hex_digit_to_bin, digits[1 + exponent:]))
               + suffix)
     return result[:1 + exponent] + '.' + result[1 + exponent:].rstrip('0')
+
+
+def to_sign(value: Real) -> int:
+    if value > 0:
+        return 1
+    elif value < 0:
+        return -1
+    else:
+        return 0
+
+
+Permutation = Sequence[int]
+
+
+def is_even_permutation(permutation: Permutation) -> bool:
+    if len(permutation) == 1:
+        return True
+    transitions_count = 0
+    for index, element in enumerate(permutation):
+        for next_element in permutation[index + 1:]:
+            if element > next_element:
+                transitions_count += 1
+    return not (transitions_count % 2)
+
+
+def permute(sequence: Sequence[Domain],
+            permutation: Permutation) -> Sequence[Domain]:
+    return itemgetter(*permutation)(sequence)
