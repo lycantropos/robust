@@ -12,7 +12,7 @@ from robust.utils import (split,
 from tests.strategies import (numbers_strategies,
                               numbers_strategies_factories)
 from tests.utils import (Domain,
-                         cleave,
+                         cleave_in_tuples,
                          combine,
                          compose,
                          extend_function,
@@ -66,12 +66,9 @@ expansions_with_zeros = strategies.one_of(
          for type_, factory in numbers_strategies_factories.items()
          for builder in expansions_builders])
 expansions_with_scales = strategies.one_of(
-        [numbers_strategies.flatmap(compose(pack(strategies.tuples),
-                                            cleave(builder, identity)))
+        [numbers_strategies.flatmap(cleave_in_tuples(builder, identity))
          for builder in expansions_builders])
 expansions_pairs = strategies.one_of(
-        [numbers_strategies.flatmap(compose(pack(strategies.tuples),
-                                            cleave(builder,
-                                                   other_builder)))
+        [numbers_strategies.flatmap(cleave_in_tuples(builder, other_builder))
          for builder, other_builder in product(expansions_builders,
                                                repeat=2)])

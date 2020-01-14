@@ -90,6 +90,12 @@ def compose(*functions: Callable[..., Range]) -> Callable[..., Range]:
     return partial(composition, functions)
 
 
+def cleave_in_tuples(*functions: Callable[[Strategy[Domain]], Strategy[Range]]
+                     ) -> Callable[[Strategy[Domain]],
+                                   Strategy[Tuple[Range, ...]]]:
+    return compose(pack(strategies.tuples), cleave(*functions))
+
+
 def to_tuples(elements: Strategy[Domain],
               *,
               size: int) -> Strategy[Tuple[Domain, ...]]:

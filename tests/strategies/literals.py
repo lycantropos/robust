@@ -27,29 +27,6 @@ def to_floats(*,
                          max_digits_count=max_digits_count)))
 
 
-def to_fractions(*,
-                 min_value: Optional[Scalar] = None,
-                 max_value: Optional[Scalar] = None,
-                 max_denominator: Optional[Scalar] = None,
-                 max_digits_count: int = MAX_DIGITS_COUNT
-                 ) -> Strategy[Fraction]:
-    return (strategies.fractions(min_value=min_value,
-                                 max_value=max_value,
-                                 max_denominator=max_denominator)
-            .map(partial(to_digits_count,
-                         max_digits_count=max_digits_count)))
-
-
-def to_integers(*,
-                min_value: Optional[Scalar] = None,
-                max_value: Optional[Scalar] = None,
-                max_digits_count: int = MAX_DIGITS_COUNT) -> Strategy[int]:
-    return (strategies.integers(min_value=min_value,
-                                max_value=max_value)
-            .map(partial(to_digits_count,
-                         max_digits_count=max_digits_count)))
-
-
 def to_digits_count(number: Scalar,
                     *,
                     max_digits_count: int = MAX_DIGITS_COUNT) -> Scalar:
@@ -85,7 +62,7 @@ def to_decimal(number: SupportsFloat) -> Decimal:
 
 
 numbers_strategies_factories = {float: to_floats,
-                                Fraction: to_fractions,
-                                int: to_integers}
+                                Fraction: strategies.fractions,
+                                int: strategies.integers}
 numbers_strategies = strategies.sampled_from(
         [factory() for factory in numbers_strategies_factories.values()])
