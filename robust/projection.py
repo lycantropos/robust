@@ -1,13 +1,14 @@
+from numbers import Real
+
 from . import parallelogram
-from .hints import (Point,
-                    Scalar)
+from .hints import RealPoint
 from .utils import to_perpendicular_point
 
 
-def signed_length(first_start: Point,
-                  first_end: Point,
-                  second_start: Point,
-                  second_end: Point) -> Scalar:
+def signed_length(first_start: RealPoint,
+                  first_end: RealPoint,
+                  second_start: RealPoint,
+                  second_end: RealPoint) -> Real:
     """
     Calculates signed length of projection of one vector onto another.
     """
