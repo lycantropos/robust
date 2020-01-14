@@ -1,25 +1,26 @@
+from numbers import Real
+
 from hypothesis import given
 
-from robust.hints import Scalar
 from robust.utils import split
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
 from . import strategies
 
 
-@given(strategies.scalars)
-def test_basic(scalar: Scalar) -> None:
-    result = split(scalar)
+@given(strategies.numbers)
+def test_basic(number: Real) -> None:
+    result = split(number)
 
     assert isinstance(result, tuple)
     assert len(result) == 2
-    assert all(isinstance(element, type(scalar)) for element in result)
+    assert all(isinstance(element, type(number)) for element in result)
 
 
-@given(strategies.scalars)
-def test_properties(scalar: Scalar) -> None:
-    result = split(scalar)
+@given(strategies.numbers)
+def test_properties(number: Real) -> None:
+    result = split(number)
 
-    assert sum(result) == scalar
+    assert sum(result) == number
     assert is_sorted_by_magnitude_expansion(result)
     assert is_non_overlapping_expansion(result)

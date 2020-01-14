@@ -3,7 +3,7 @@ from typing import Tuple
 from hypothesis import given
 
 from robust.hints import (Expansion,
-                          Scalar)
+                          Real)
 from robust.utils import scale_expansion
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
@@ -11,7 +11,7 @@ from . import strategies
 
 
 @given(strategies.expansions_with_scales)
-def test_basic(expansion_with_scale: Tuple[Expansion, Scalar]) -> None:
+def test_basic(expansion_with_scale: Tuple[Expansion, Real]) -> None:
     expansion, scale = expansion_with_scale
 
     result = scale_expansion(expansion, scale)
@@ -23,7 +23,7 @@ def test_basic(expansion_with_scale: Tuple[Expansion, Scalar]) -> None:
 
 
 @given(strategies.expansions_with_scales)
-def test_properties(expansion_with_scale: Tuple[Expansion, Scalar]) -> None:
+def test_properties(expansion_with_scale: Tuple[Expansion, Real]) -> None:
     expansion, scale = expansion_with_scale
 
     result = scale_expansion(expansion, scale)

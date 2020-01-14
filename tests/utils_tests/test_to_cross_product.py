@@ -1,19 +1,19 @@
+from numbers import Real
 from typing import Tuple
 
 from hypothesis import given
 
-from robust.hints import Scalar
 from robust.utils import to_cross_product
 from tests.utils import (is_non_overlapping_expansion,
                          is_sorted_by_magnitude_expansion)
 from . import strategies
 
 
-@given(strategies.scalars_quadruples)
-def test_basic(scalars_quadruple: Tuple[Scalar, Scalar, Scalar, Scalar]
+@given(strategies.numbers_quadruples)
+def test_basic(numbers_quadruple: Tuple[Real, Real, Real, Real]
                ) -> None:
     (minuend_multiplier_x, minuend_multiplier_y,
-     subtrahend_multiplier_x, subtrahend_multiplier_y) = scalars_quadruple
+     subtrahend_multiplier_x, subtrahend_multiplier_y) = numbers_quadruple
 
     result = to_cross_product(minuend_multiplier_x, minuend_multiplier_y,
                               subtrahend_multiplier_x, subtrahend_multiplier_y)
@@ -24,11 +24,11 @@ def test_basic(scalars_quadruple: Tuple[Scalar, Scalar, Scalar, Scalar]
                for element in result)
 
 
-@given(strategies.scalars_quadruples)
-def test_properties(scalars_quadruple: Tuple[Scalar, Scalar, Scalar, Scalar]
+@given(strategies.numbers_quadruples)
+def test_properties(numbers_quadruple: Tuple[Real, Real, Real, Real]
                     ) -> None:
     (minuend_multiplier_x, minuend_multiplier_y,
-     subtrahend_multiplier_x, subtrahend_multiplier_y) = scalars_quadruple
+     subtrahend_multiplier_x, subtrahend_multiplier_y) = numbers_quadruple
 
     result = to_cross_product(minuend_multiplier_x, minuend_multiplier_y,
                               subtrahend_multiplier_x, subtrahend_multiplier_y)
