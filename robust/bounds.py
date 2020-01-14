@@ -1,9 +1,8 @@
+from numbers import Real
 from typing import Tuple
 
-from .hints import Scalar
 
-
-def _to_epsilon_and_splitter() -> Tuple[float, float]:
+def _to_epsilon_and_splitter() -> Tuple[Real, Real]:
     every_other = True
     epsilon, splitter = 1, 1
     check = 1
@@ -23,38 +22,29 @@ def _to_epsilon_and_splitter() -> Tuple[float, float]:
 epsilon, splitter = _to_epsilon_and_splitter()
 
 
-def to_determinant_error(determinant: Scalar) -> Scalar:
-    local_epsilon = type(determinant)(epsilon)
-    return (3 + 8 * local_epsilon) * local_epsilon * abs(determinant)
+def to_determinant_error(determinant: Real) -> Real:
+    return (3 + 8 * epsilon) * epsilon * abs(determinant)
 
 
-def to_signed_measure_first_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return local_epsilon * (3 + 16 * local_epsilon) * upper_bound
+def to_signed_measure_first_error(upper_bound: Real) -> Real:
+    return epsilon * (3 + 16 * epsilon) * upper_bound
 
 
-def to_signed_measure_second_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return local_epsilon * (2 + 12 * local_epsilon) * upper_bound
+def to_signed_measure_second_error(upper_bound: Real) -> Real:
+    return epsilon * (2 + 12 * epsilon) * upper_bound
 
 
-def to_signed_measure_third_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return (local_epsilon * local_epsilon * (9 + 64 * local_epsilon)
-            * upper_bound)
+def to_signed_measure_third_error(upper_bound: Real) -> Real:
+    return epsilon * epsilon * (9 + 64 * epsilon) * upper_bound
 
 
-def to_cocircular_first_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return (10 + 96 * local_epsilon) * local_epsilon * upper_bound
+def to_cocircular_first_error(upper_bound: Real) -> Real:
+    return (10 + 96 * epsilon) * epsilon * upper_bound
 
 
-def to_cocircular_second_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return local_epsilon * (4 + 48 * local_epsilon) * upper_bound
+def to_cocircular_second_error(upper_bound: Real) -> Real:
+    return epsilon * (4 + 48 * epsilon) * upper_bound
 
 
-def to_cocircular_third_error(upper_bound: Scalar) -> Scalar:
-    local_epsilon = type(upper_bound)(epsilon)
-    return (local_epsilon * local_epsilon * (44 + 576 * local_epsilon)
-            * upper_bound)
+def to_cocircular_third_error(upper_bound: Real) -> Real:
+    return epsilon * epsilon * (44 + 576 * epsilon) * upper_bound
