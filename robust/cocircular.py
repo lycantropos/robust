@@ -23,6 +23,10 @@ def determinant(first_point: Point, second_point: Point,
     """
     Calculates determinant of linear equations' system
     for checking if four points lie on the same circle.
+
+    Positive sign of result means that point lies inside,
+    negative -- outside,
+    zero -- on a circle defined by other points.
     """
     first_dx, first_dy = (first_point[X] - fourth_point[X],
                           first_point[Y] - fourth_point[Y])
