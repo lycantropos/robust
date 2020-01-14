@@ -7,8 +7,8 @@ from typing import (Optional,
 
 from hypothesis import strategies
 
-from robust.hints import Scalar
-from tests.utils import Strategy
+from tests.utils import (Scalar,
+                         Strategy)
 
 MAX_DIGITS_COUNT = sys.float_info.dig
 

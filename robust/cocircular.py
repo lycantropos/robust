@@ -5,7 +5,7 @@ from typing import (Iterable,
 
 from . import bounds
 from .hints import (Expansion,
-                    RealPoint)
+                    Point)
 from .utils import (X,
                     Y,
                     scale_expansion,
@@ -18,8 +18,8 @@ from .utils import (X,
                     two_two_sum)
 
 
-def determinant(first_point: RealPoint, second_point: RealPoint,
-                third_point: RealPoint, fourth_point: RealPoint) -> Real:
+def determinant(first_point: Point, second_point: Point,
+                third_point: Point, fourth_point: Point) -> Real:
     """
     Calculates determinant of linear equations' system
     for checking if four points lie on the same circle.
@@ -62,8 +62,8 @@ def determinant(first_point: RealPoint, second_point: RealPoint,
                                  upper_bound)
 
 
-def _adjusted_determinant(first_point: RealPoint, second_point: RealPoint,
-                          third_point: RealPoint, fourth_point: RealPoint,
+def _adjusted_determinant(first_point: Point, second_point: Point,
+                          third_point: Point, fourth_point: Point,
                           upper_bound: Real) -> Real:
     first_dx, first_dy = (first_point[X] - fourth_point[X],
                           first_point[Y] - fourth_point[Y])
