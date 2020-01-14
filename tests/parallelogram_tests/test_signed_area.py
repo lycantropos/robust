@@ -1,11 +1,15 @@
-from itertools import permutations, product
+from itertools import (permutations,
+                       product)
 from typing import Tuple
 
 from hypothesis import given
 
 from robust.hints import Point
 from robust.parallelogram import signed_area
-from tests.utils import (equivalence, is_even_permutation, permute, to_sign)
+from tests.utils import (equivalence,
+                         is_even_permutation,
+                         permute,
+                         to_sign)
 from . import strategies
 
 
