@@ -66,6 +66,39 @@ Install:
   pypy setup.py install
   ```
 
+Usage
+-----
+```python
+>>> from robust import cocircular
+>>> # positive sign means that point lies inside,
+... # negative -- outside,
+... # zero -- on a circle defined by other points
+>>> cocircular.determinant((0, 0), (2, 0), (0, 2), (1, 1))
+8
+>>> cocircular.determinant((0, 0), (2, 0), (0, 2), (3, 3))
+-24
+>>> cocircular.determinant((0, 0), (2, 0), (2, 2), (0, 2))
+0
+>>> # positive sign means that second vector is counterclockwise,
+... # negative -- clockwise,
+... # zero -- collinear to first vector
+>>> from robust import parallelogram
+>>> parallelogram.signed_area((0, 0), (2, 0), (0, 0), (0, 2))
+4
+>>> parallelogram.signed_area((0, 0), (0, 2), (0, 0), (2, 0))
+-4
+>>> # positive sign means that angle between vectors is acute,
+... # negative -- obtuse,
+... # zero -- right
+>>> from robust import projection
+>>> projection.signed_length((0, 0), (2, 0), (0, 0), (2, 0))
+4
+>>> projection.signed_length((0, 0), (2, 0), (0, 0), (-2, 0))
+-4
+>>> projection.signed_length((0, 0), (2, 0), (0, 0), (0, 2))
+0
+```
+
 Development
 -----------
 
