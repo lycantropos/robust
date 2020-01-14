@@ -1,5 +1,7 @@
+from numbers import Real
+
 from . import bounds
-from .hints import (Point,
+from .hints import (RealPoint,
                     Scalar)
 from .utils import (X,
                     Y,
@@ -10,10 +12,10 @@ from .utils import (X,
                     two_two_diff)
 
 
-def signed_area(first_start: Point,
-                first_end: Point,
-                second_start: Point,
-                second_end: Point) -> Scalar:
+def signed_area(first_start: RealPoint,
+                first_end: RealPoint,
+                second_start: RealPoint,
+                second_end: RealPoint) -> Real:
     """
     Calculates signed area of parallelogram built on segments' vectors.
     """
@@ -45,11 +47,11 @@ def signed_area(first_start: Point,
                                  upper_bound)
 
 
-def _adjusted_signed_area(first_start: Point,
-                          first_end: Point,
-                          second_start: Point,
-                          second_end: Point,
-                          upper_bound: Scalar) -> Scalar:
+def _adjusted_signed_area(first_start: RealPoint,
+                          first_end: RealPoint,
+                          second_start: RealPoint,
+                          second_end: RealPoint,
+                          upper_bound: Real) -> Scalar:
     minuend_multiplier_x = first_end[X] - first_start[X]
     minuend_multiplier_y = second_end[Y] - second_start[Y]
     subtrahend_multiplier_x = second_end[X] - second_start[X]
