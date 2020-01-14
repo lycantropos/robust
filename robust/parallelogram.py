@@ -15,6 +15,10 @@ def signed_area(first_start: Point, first_end: Point,
                 second_start: Point, second_end: Point) -> Real:
     """
     Calculates signed area of parallelogram built on segments' vectors.
+
+    Positive sign of result means that second vector is counterclockwise,
+    negative -- clockwise,
+    zero -- collinear to first vector.
     """
     minuend = ((first_end[X] - first_start[X])
                * (second_end[Y] - second_start[Y]))
