@@ -13,20 +13,6 @@ from tests.utils import (Scalar,
 MAX_DIGITS_COUNT = sys.float_info.dig
 
 
-def to_decimals(*,
-                min_value: Optional[Scalar] = None,
-                max_value: Optional[Scalar] = None,
-                allow_nan: bool = False,
-                allow_infinity: bool = False,
-                max_digits_count: int = MAX_DIGITS_COUNT) -> Strategy[Decimal]:
-    return (strategies.decimals(min_value=min_value,
-                                max_value=max_value,
-                                allow_nan=allow_nan,
-                                allow_infinity=allow_infinity)
-            .map(partial(to_digits_count,
-                         max_digits_count=max_digits_count)))
-
-
 def to_floats(*,
               min_value: Optional[Scalar] = None,
               max_value: Optional[Scalar] = None,
@@ -101,9 +87,5 @@ def to_decimal(number: SupportsFloat) -> Decimal:
 numbers_strategies_factories = {float: to_floats,
                                 Fraction: to_fractions,
                                 int: to_integers}
-scalars_strategies_factories = {**numbers_strategies_factories,
-                                Decimal: to_decimals}
 numbers_strategies = strategies.sampled_from(
         [factory() for factory in numbers_strategies_factories.values()])
-scalars_strategies = strategies.sampled_from(
-        [factory() for factory in scalars_strategies_factories.values()])
