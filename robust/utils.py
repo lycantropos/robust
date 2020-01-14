@@ -1,21 +1,23 @@
+from numbers import Real
 from typing import Tuple
 
 from . import bounds
 from .hints import (Expansion,
                     Point,
+                    RealPoint,
                     Scalar)
 
 X, Y = 0, 1
 
 
-def fast_two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
+def fast_two_sum(left: Real, right: Real) -> Tuple[Real, Real]:
     estimation = left + right
     right_virtual = estimation - left
     tail = right - right_virtual
     return tail, estimation
 
 
-def two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
+def two_sum(left: Real, right: Real) -> Tuple[Real, Real]:
     estimation = left + right
     right_virtual = estimation - left
     left_virtual = estimation - right_virtual
@@ -25,17 +27,17 @@ def two_sum(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     return tail, estimation
 
 
-def split(value: Scalar,
+def split(value: Real,
           *,
-          splitter: Scalar = bounds.splitter) -> Tuple[Scalar, Scalar]:
+          splitter: Real = bounds.splitter) -> Tuple[Real, Real]:
     base = splitter * value
     high = base - (base - value)
     low = value - high
     return low, high
 
 
-def two_product_presplit(left: Scalar, right: Scalar, right_low: Scalar,
-                         right_high: Scalar) -> Tuple[Scalar, Scalar]:
+def two_product_presplit(left: Real, right: Real, right_low: Real,
+                         right_high: Real) -> Tuple[Real, Real]:
     estimation = left * right
     left_low, left_high = split(left)
     first_error = estimation - left_high * right_high
@@ -45,7 +47,7 @@ def two_product_presplit(left: Scalar, right: Scalar, right_low: Scalar,
     return tail, estimation
 
 
-def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
+def two_product(left: Real, right: Real) -> Tuple[Real, Real]:
     estimation = left * right
     left_low, left_high = split(left)
     right_low, right_high = split(right)
@@ -56,8 +58,8 @@ def two_product(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
     return tail, estimation
 
 
-def two_two_diff(left_tail: Scalar, left: Scalar, right_tail: Scalar,
-                 right: Scalar) -> Tuple[Scalar, Scalar, Scalar, Scalar]:
+def two_two_diff(left_tail: Real, left: Real, right_tail: Real,
+                 right: Real) -> Tuple[Real, Real, Real, Real]:
     third_tail, interim_tail, interim = two_one_diff(left_tail, left,
                                                      right_tail)
     second_tail, first_tail, estimation = two_one_diff(interim_tail, interim,
@@ -65,8 +67,8 @@ def two_two_diff(left_tail: Scalar, left: Scalar, right_tail: Scalar,
     return third_tail, second_tail, first_tail, estimation
 
 
-def two_two_sum(left_tail: Scalar, left: Scalar, right_tail: Scalar,
-                right: Scalar) -> Tuple[Scalar, Scalar, Scalar, Scalar]:
+def two_two_sum(left_tail: Real, left: Real, right_tail: Real,
+                right: Real) -> Tuple[Real, Real, Real, Real]:
     third_tail, interim_tail, interim = two_one_sum(left_tail, left,
                                                     right_tail)
     second_tail, first_tail, estimation = two_one_sum(interim_tail, interim,
@@ -74,26 +76,26 @@ def two_two_sum(left_tail: Scalar, left: Scalar, right_tail: Scalar,
     return third_tail, second_tail, first_tail, estimation
 
 
-def two_one_sum(left_tail: Scalar, left: Scalar,
-                right: Scalar) -> Tuple[Scalar, Scalar, Scalar]:
+def two_one_sum(left_tail: Real, left: Real,
+                right: Real) -> Tuple[Real, Real, Real]:
     second_tail, interim = two_sum(left_tail, right)
     first_tail, estimation = two_sum(left, interim)
     return second_tail, first_tail, estimation
 
 
-def two_one_diff(left_tail: Scalar, left: Scalar,
-                 right: Scalar) -> Tuple[Scalar, Scalar, Scalar]:
+def two_one_diff(left_tail: Real, left: Real,
+                 right: Real) -> Tuple[Real, Real, Real]:
     second_tail, interim = two_diff(left_tail, right)
     first_tail, estimation = two_sum(left, interim)
     return second_tail, first_tail, estimation
 
 
-def two_diff(left: Scalar, right: Scalar) -> Tuple[Scalar, Scalar]:
+def two_diff(left: Real, right: Real) -> Tuple[Real, Real]:
     estimation = left - right
     return two_diff_tail(left, right, estimation), estimation
 
 
-def two_diff_tail(left: Scalar, right: Scalar, estimation: Scalar) -> Scalar:
+def two_diff_tail(left: Real, right: Real, estimation: Real) -> Real:
     right_virtual = left - estimation
     left_virtual = estimation + right_virtual
     right_error = right_virtual - right
@@ -101,7 +103,7 @@ def two_diff_tail(left: Scalar, right: Scalar, estimation: Scalar) -> Scalar:
     return left_error + right_error
 
 
-def square(value: Scalar) -> Tuple[Scalar, Scalar]:
+def square(value: Real) -> Tuple[Real, Real]:
     estimation = value * value
     value_low, value_high = split(value)
     first_error = estimation - value_high * value_high
@@ -191,7 +193,7 @@ def sum_expansions(left_expansion: Expansion,
     return result
 
 
-def scale_expansion(expansion: Expansion, scalar: Scalar) -> Expansion:
+def scale_expansion(expansion: Expansion, scalar: Real) -> Expansion:
     """
     Multiplies an expansion by a scalar with zero components elimination.
     """
@@ -216,10 +218,10 @@ def scale_expansion(expansion: Expansion, scalar: Scalar) -> Expansion:
     return result
 
 
-def to_cross_product(minuend_multiplier_x: Scalar,
-                     minuend_multiplier_y: Scalar,
-                     subtrahend_multiplier_x: Scalar,
-                     subtrahend_multiplier_y: Scalar) -> Expansion:
+def to_cross_product(minuend_multiplier_x: Real,
+                     minuend_multiplier_y: Real,
+                     subtrahend_multiplier_x: Real,
+                     subtrahend_multiplier_y: Real) -> Expansion:
     """
     Returns expansion of vectors' planar cross product.
     """
