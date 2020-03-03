@@ -4,13 +4,13 @@ from fractions import Fraction
 from typing import (Tuple,
                     Union)
 
-from robust.parallelogram import signed_area
 from .angular import (Kind,
                       Orientation,
                       kind,
                       orientation)
 from .hints import (Point,
                     Segment)
+from .parallelogram import signed_area
 
 
 @unique
