@@ -71,38 +71,14 @@ def segments_relationship(left: Segment,
             return SegmentsRelationship.CROSS
         elif (right_start_orientation is Orientation.COLLINEAR
               and _point_in_bounding_box(right_start, left)):
-            if right_end_orientation is Orientation.COLLINEAR:
-                if right_start == left_start:
-                    if kind(right_end, right_start, left_end) is Kind.ACUTE:
-                        return SegmentsRelationship.OVERLAP
-                    else:
-                        return SegmentsRelationship.CROSS
-                elif right_start == left_end:
-                    if kind(right_end, right_start, left_start) is Kind.ACUTE:
-                        return SegmentsRelationship.OVERLAP
-                    else:
-                        return SegmentsRelationship.CROSS
-                else:
-                    return SegmentsRelationship.OVERLAP
-            else:
-                return SegmentsRelationship.CROSS
+            return (SegmentsRelationship.OVERLAP
+                    if right_end_orientation is Orientation.COLLINEAR
+                    else SegmentsRelationship.CROSS)
         elif (right_end_orientation is Orientation.COLLINEAR
               and _point_in_bounding_box(right_end, left)):
-            if right_start_orientation is Orientation.COLLINEAR:
-                if right_end == left_start:
-                    if kind(right_start, right_end, left_end) is Kind.ACUTE:
-                        return SegmentsRelationship.OVERLAP
-                    else:
-                        return SegmentsRelationship.CROSS
-                elif right_end == left_end:
-                    if kind(right_start, right_end, left_start) is Kind.ACUTE:
-                        return SegmentsRelationship.OVERLAP
-                    else:
-                        return SegmentsRelationship.CROSS
-                else:
-                    return SegmentsRelationship.OVERLAP
-            else:
-                return SegmentsRelationship.CROSS
+            return (SegmentsRelationship.OVERLAP
+                    if right_start_orientation is Orientation.COLLINEAR
+                    else SegmentsRelationship.CROSS)
         else:
             return SegmentsRelationship.NONE
 
