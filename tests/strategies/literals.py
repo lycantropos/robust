@@ -2,20 +2,18 @@ import sys
 from decimal import Decimal
 from fractions import Fraction
 from functools import partial
-from typing import (Optional,
-                    SupportsFloat)
+from typing import Optional
 
 from hypothesis import strategies
 
-from tests.utils import (Scalar,
-                         Strategy)
+from tests.utils import Strategy
 
 MAX_DIGITS_COUNT = sys.float_info.dig
 
 
-def to_floats(*,
-              min_value: Optional[Scalar] = None,
-              max_value: Optional[Scalar] = None,
+def to_floats(min_value: Optional[float] = None,
+              max_value: Optional[float] = None,
+              *,
               allow_nan: bool = False,
               allow_infinity: bool = False,
               max_digits_count: int = MAX_DIGITS_COUNT) -> Strategy[float]:
@@ -27,10 +25,10 @@ def to_floats(*,
                          max_digits_count=max_digits_count)))
 
 
-def to_digits_count(number: Scalar,
+def to_digits_count(number: float,
                     *,
-                    max_digits_count: int = MAX_DIGITS_COUNT) -> Scalar:
-    decimal = to_decimal(number).normalize()
+                    max_digits_count: int = MAX_DIGITS_COUNT) -> float:
+    decimal = Decimal(number).normalize()
     _, significant_digits, exponent = decimal.as_tuple()
     significant_digits_count = len(significant_digits)
     if exponent < 0:
@@ -50,15 +48,7 @@ def to_digits_count(number: Scalar,
         decimal *= 10 ** (-exponent - significant_digits_count)
         whole_digits_count = 1
     decimal = round(decimal, max(max_digits_count - whole_digits_count, 0))
-    return type(number)(str(decimal))
-
-
-def to_decimal(number: SupportsFloat) -> Decimal:
-    if isinstance(number, Decimal):
-        return number
-    elif not isinstance(number, (int, float)):
-        number = float(number)
-    return Decimal(number)
+    return float(str(decimal))
 
 
 numbers_strategies_factories = {float: to_floats,

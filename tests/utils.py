@@ -1,4 +1,3 @@
-from decimal import Decimal
 from functools import partial
 from itertools import (combinations,
                        repeat)
@@ -20,7 +19,6 @@ from robust.hints import Expansion
 
 Domain = TypeVar('Domain')
 Range = TypeVar('Range')
-Scalar = TypeVar('Scalar', Real, Decimal)
 Strategy = SearchStrategy
 
 
