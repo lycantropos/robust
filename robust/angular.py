@@ -38,6 +38,13 @@ def kind(first_ray_point: Point,
 def orientation(first_ray_point: Point,
                 vertex: Point,
                 second_ray_point: Point) -> Orientation:
+    """
+    Returns orientation of angle built on given points.
+
+    >>> orientation((1, 0), (0, 0), (1, 0)) is Orientation.COLLINEAR
+    >>> orientation((1, 0), (0, 0), (0, 1)) is Orientation.COUNTERCLOCKWISE
+    >>> orientation((0, 1), (0, 0), (1, 0)) is Orientation.CLOCKWISE
+    """
     return Orientation(_to_sign(signed_area(vertex, first_ray_point,
                                             vertex, second_ray_point)))
 
