@@ -83,21 +83,20 @@ def segments_relationship(left: Segment,
             return SegmentsRelationship.NONE
 
 
-def find_intersections(left: Segment,
-                       right: Segment) -> Union[Tuple[()], Tuple[Point],
-                                                Tuple[Point, Point]]:
+def segments_intersections(left: Segment,
+                           right: Segment) -> Union[Tuple[()], Tuple[Point],
+                                                    Tuple[Point, Point]]:
     relationship = segments_relationship(left, right)
     if relationship is SegmentsRelationship.NONE:
         return ()
     elif relationship is SegmentsRelationship.CROSS:
-        return find_intersection(left, right),
+        return segments_intersection(left, right),
     else:
-        _, first_intersection_point, second_intersection_point, _ = sorted(
-                left + right)
-        return first_intersection_point, second_intersection_point
+        _, first_intersection, second_intersection, _ = sorted(left + right)
+        return first_intersection, second_intersection
 
 
-def find_intersection(left: Segment, right: Segment) -> Point:
+def segments_intersection(left: Segment, right: Segment) -> Point:
     left_start, left_end = left
     right_start, right_end = right
     if point_in_segment(right_start, left):
