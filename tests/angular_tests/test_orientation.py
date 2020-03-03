@@ -37,5 +37,7 @@ def test_permutations(points_triplet: Tuple[Point, Point, Point]) -> None:
     result = orientation(first_start, first_end, second_start)
 
     assert all(orientation(*permute(points_triplet, permutation))
-               is (result if is_even_permutation(permutation) else -result)
+               is (result
+                   if is_even_permutation(permutation)
+                   else Orientation(-result))
                for permutation in permutations(range(len(points_triplet))))
