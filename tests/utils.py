@@ -15,7 +15,8 @@ from typing import (Any,
 from hypothesis import strategies
 from hypothesis.strategies import SearchStrategy
 
-from robust.hints import Expansion
+from robust.hints import (Expansion,
+                          Segment)
 
 Domain = TypeVar('Domain')
 Range = TypeVar('Range')
@@ -206,3 +207,30 @@ def is_even_permutation(permutation: Permutation) -> bool:
 def permute(sequence: Sequence[Domain],
             permutation: Permutation) -> Sequence[Domain]:
     return itemgetter(*permutation)(sequence)
+
+
+def scale_segment(segment: Segment,
+                  *,
+                  scale: Real) -> Segment:
+    start, end = segment
+    start_x, start_y = start
+    end_x, end_y = end
+    return (start, (start_x + scale * (end_x - start_x),
+                    start_y + scale * (end_y - start_y)))
+
+
+def reflect_segment(segment: Segment) -> Segment:
+    return scale_segment(segment,
+                         scale=-1)
+
+
+def reverse_segment(segment: Segment) -> Segment:
+    start, end = segment
+    return end, start
+
+
+def is_point(object_: Any) -> bool:
+    return (isinstance(object_, tuple)
+            and len(object_) == 2
+            and all(isinstance(coordinate, Real)
+                    for coordinate in object_))
