@@ -24,6 +24,13 @@ class Orientation(IntEnum):
 def kind(first_ray_point: Point,
          vertex: Point,
          second_ray_point: Point) -> Kind:
+    """
+    Returns kind of angle built on given points.
+
+    >>> kind((1, 0), (0, 0), (1, 0)) is Kind.ACUTE
+    >>> kind((1, 0), (0, 0), (0, 1)) is Kind.RIGHT
+    >>> kind((1, 0), (0, 0), (-1, 0)) is Kind.OBTUSE
+    """
     return Kind(_to_sign(signed_length(vertex, first_ray_point,
                                        vertex, second_ray_point)))
 
