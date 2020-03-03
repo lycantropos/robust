@@ -232,3 +232,12 @@ def to_cross_product(minuend_multiplier_x: Real,
 
 def to_perpendicular_point(point: Point) -> Point:
     return -point[Y], point[X]
+
+
+def to_sign(value: Real) -> int:
+    if value > 0:
+        return 1
+    elif value < 0:
+        return -1
+    else:
+        return 0
