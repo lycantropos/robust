@@ -5,9 +5,9 @@ from hypothesis import given
 
 from robust.cocircular import determinant
 from robust.hints import Point
+from robust.utils import to_sign
 from tests.utils import (is_even_permutation,
-                         permute,
-                         to_sign)
+                         permute)
 from . import strategies
 
 

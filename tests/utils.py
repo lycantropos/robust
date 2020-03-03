@@ -189,15 +189,6 @@ def float_to_binary(number: float,
     return result[:1 + exponent] + '.' + result[1 + exponent:].rstrip('0')
 
 
-def to_sign(value: Real) -> int:
-    if value > 0:
-        return 1
-    elif value < 0:
-        return -1
-    else:
-        return 0
-
-
 Permutation = Sequence[int]
 
 

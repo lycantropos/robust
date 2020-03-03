@@ -6,11 +6,11 @@ from hypothesis import given
 
 from robust.hints import Point
 from robust.projection import signed_length
-from robust.utils import to_perpendicular_point
+from robust.utils import (to_perpendicular_point,
+                          to_sign)
 from tests.utils import (equivalence,
                          is_even_permutation,
-                         permute,
-                         to_sign)
+                         permute)
 from . import strategies
 
 

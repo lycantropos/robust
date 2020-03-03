@@ -6,10 +6,10 @@ from hypothesis import given
 
 from robust.hints import Point
 from robust.parallelogram import signed_area
+from robust.utils import to_sign
 from tests.utils import (equivalence,
                          is_even_permutation,
-                         permute,
-                         to_sign)
+                         permute)
 from . import strategies
 
 
