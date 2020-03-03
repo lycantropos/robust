@@ -140,50 +140,40 @@ def find_intersection(left: Segment, right: Segment) -> Point:
                                            left_start, left_end)
         base_numerators_diff = (abs(right_base_numerator)
                                 - abs(left_base_numerator))
+        denominator_inv = (Fraction(1, denominator)
+                           if isinstance(denominator, int)
+                           else 1 / denominator)
         if not base_numerators_diff:
             left_start_x, left_start_y = left_start
             left_end_x, left_end_y = left_end
             right_start_x, right_start_y = right_start
             right_end_x, right_end_y = right_end
-            double_numerator_x = (left_start_x * denominator
-                                  + (left_end_x - left_start_x)
-                                  * left_base_numerator
-                                  + right_start_x * denominator
-                                  + (right_end_x - right_start_x)
-                                  * right_base_numerator)
-            double_numerator_y = (left_start_y * denominator
-                                  + (left_end_y - left_start_y)
-                                  * left_base_numerator
-                                  + right_start_y * denominator
-                                  + (right_end_y - right_start_y)
-                                  * right_base_numerator)
-            numerator_x, numerator_y = ((Fraction(double_numerator_x, 2),
-                                         Fraction(double_numerator_y, 2))
-                                        if isinstance(denominator, int)
-                                        else (double_numerator_x / 2,
-                                              double_numerator_y / 2))
+            return ((left_start_x + right_start_x
+                     + ((left_end_x - left_start_x) * left_base_numerator
+                        + (right_end_x - right_start_x) * right_base_numerator)
+                     * denominator_inv) / 2,
+                    (left_start_y + right_start_y
+                     + ((left_end_y - left_start_y) * left_base_numerator
+                        + (right_end_y - right_start_y) * right_base_numerator)
+                     * denominator_inv) / 2)
         elif base_numerators_diff > 0:
             left_start_x, left_start_y = left_start
             left_end_x, left_end_y = left_end
-            numerator_x, numerator_y = (left_start_x * denominator
-                                        + left_base_numerator
-                                        * (left_end_x - left_start_x),
-                                        left_start_y * denominator
-                                        + left_base_numerator
-                                        * (left_end_y - left_start_y))
+            return (left_start_x
+                    + left_base_numerator * (left_end_x - left_start_x)
+                    * denominator_inv,
+                    left_start_y
+                    + left_base_numerator * (left_end_y - left_start_y)
+                    * denominator_inv)
         else:
             right_start_x, right_start_y = right_start
             right_end_x, right_end_y = right_end
-            numerator_x, numerator_y = (right_start_x * denominator
-                                        + right_base_numerator
-                                        * (right_end_x - right_start_x),
-                                        right_start_y * denominator
-                                        + right_base_numerator
-                                        * (right_end_y - right_start_y))
-        denominator_inv = (Fraction(1, denominator)
-                           if isinstance(denominator, int)
-                           else 1 / denominator)
-        return numerator_x * denominator_inv, numerator_y * denominator_inv
+            return (right_start_x
+                    + right_base_numerator * (right_end_x - right_start_x)
+                    * denominator_inv,
+                    right_start_y
+                    + right_base_numerator * (right_end_y - right_start_y)
+                    * denominator_inv)
 
 
 def point_in_segment(point: Point, segment: Segment) -> bool:
