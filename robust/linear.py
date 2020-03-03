@@ -29,7 +29,7 @@ def segments_relationship(left: Segment,
     left_start_orientation = orientation(right_start, right_end, left_start, )
     left_end_orientation = orientation(right_start, right_end, left_end)
     if (left_start_orientation is Orientation.COLLINEAR
-            and _point_in_bounding_box(left_start, right)):
+            and _bounding_box_contains(right, left_start)):
         if left_end_orientation is Orientation.COLLINEAR:
             if left_start == right_start:
                 if kind(left_end, left_start, right_end) is Kind.ACUTE:
@@ -46,7 +46,7 @@ def segments_relationship(left: Segment,
         else:
             return SegmentsRelationship.CROSS
     elif (left_end_orientation is Orientation.COLLINEAR
-          and _point_in_bounding_box(left_end, right)):
+          and _bounding_box_contains(right, left_end)):
         if left_start_orientation is Orientation.COLLINEAR:
             if left_end == right_start:
                 if kind(left_start, left_end, right_end) is Kind.ACUTE:
@@ -70,12 +70,12 @@ def segments_relationship(left: Segment,
                 and right_start_orientation * right_end_orientation < 0):
             return SegmentsRelationship.CROSS
         elif (right_start_orientation is Orientation.COLLINEAR
-              and _point_in_bounding_box(right_start, left)):
+              and _bounding_box_contains(left, right_start)):
             return (SegmentsRelationship.OVERLAP
                     if right_end_orientation is Orientation.COLLINEAR
                     else SegmentsRelationship.CROSS)
         elif (right_end_orientation is Orientation.COLLINEAR
-              and _point_in_bounding_box(right_end, left)):
+              and _bounding_box_contains(left, right_end)):
             return (SegmentsRelationship.OVERLAP
                     if right_start_orientation is Orientation.COLLINEAR
                     else SegmentsRelationship.CROSS)
@@ -99,13 +99,13 @@ def segments_intersections(left: Segment,
 def segments_intersection(left: Segment, right: Segment) -> Point:
     left_start, left_end = left
     right_start, right_end = right
-    if point_in_segment(right_start, left):
+    if segment_contains(left, right_start):
         return right_start
-    elif point_in_segment(right_end, left):
+    elif segment_contains(left, right_end):
         return right_end
-    elif point_in_segment(left_start, right):
+    elif segment_contains(right, left_start):
         return left_start
-    elif point_in_segment(left_end, right):
+    elif segment_contains(right, left_end):
         return left_end
     else:
         denominator = signed_area(left_start, left_end, right_start, right_end)
@@ -151,14 +151,14 @@ def segments_intersection(left: Segment, right: Segment) -> Point:
                     * denominator_inv)
 
 
-def point_in_segment(point: Point, segment: Segment) -> bool:
+def segment_contains(segment: Segment, point: Point) -> bool:
     start, end = segment
     return (point == start or point == end
-            or (_point_in_bounding_box(point, segment)
+            or (_bounding_box_contains(segment, point)
                 and orientation(end, start, point) is Orientation.COLLINEAR))
 
 
-def _point_in_bounding_box(point: Point, segment: Segment) -> bool:
+def _bounding_box_contains(segment: Segment, point: Point) -> bool:
     (start_x, start_y), (end_x, end_y) = segment
     left_x, right_x = ((start_x, end_x)
                        if start_x < end_x
