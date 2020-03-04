@@ -6,7 +6,9 @@ from robust.hints import Segment
 from robust.linear import (segments_intersections,
                            segments_relationship)
 from tests.utils import (is_point,
-                         reverse_segment)
+                         reverse_point_coordinates,
+                         reverse_segment,
+                         reverse_segment_coordinates)
 from . import strategies
 
 
@@ -52,3 +54,15 @@ def test_reversed(segment: Segment) -> None:
     result = segments_intersections(segment, reverse_segment(segment))
 
     assert result == tuple(sorted(segment))
+
+
+@given(strategies.segments_pairs)
+def test_reversed_coordinates(segments_pair: Tuple[Segment, Segment]) -> None:
+    left_segment, right_segment = segments_pair
+
+    result = segments_intersections(left_segment, right_segment)
+
+    assert (tuple(sorted(map(reverse_point_coordinates, reversed(result))))
+            == segments_intersections(
+                    reverse_segment_coordinates(left_segment),
+                    reverse_segment_coordinates(right_segment)))

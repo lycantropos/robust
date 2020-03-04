@@ -16,6 +16,7 @@ from hypothesis import strategies
 from hypothesis.strategies import SearchStrategy
 
 from robust.hints import (Expansion,
+                          Point,
                           Segment)
 
 Domain = TypeVar('Domain')
@@ -227,6 +228,16 @@ def reflect_segment(segment: Segment) -> Segment:
 def reverse_segment(segment: Segment) -> Segment:
     start, end = segment
     return end, start
+
+
+def reverse_segment_coordinates(segment: Segment) -> Segment:
+    start, end = segment
+    return reverse_point_coordinates(start), reverse_point_coordinates(end)
+
+
+def reverse_point_coordinates(point: Point) -> Point:
+    x, y = point
+    return y, x
 
 
 def is_point(object_: Any) -> bool:
