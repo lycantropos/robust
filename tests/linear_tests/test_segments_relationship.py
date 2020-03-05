@@ -46,4 +46,4 @@ def test_reversed(segment: Segment) -> None:
 def test_reflected(segment: Segment) -> None:
     result = segments_relationship(segment, reflect_segment(segment))
 
-    assert result is SegmentsRelationship.CROSS
+    assert result is SegmentsRelationship.TOUCH
