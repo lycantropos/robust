@@ -3,7 +3,8 @@ from typing import Tuple
 from hypothesis import given
 
 from robust.hints import Segment
-from robust.linear import (segments_intersections,
+from robust.linear import (SegmentsRelationship,
+                           segments_intersections,
                            segments_relationship)
 from tests.utils import (is_point,
                          reverse_point_coordinates,
@@ -46,7 +47,11 @@ def test_connection_with_segments_relationship(
 
     result = segments_intersections(left_segment, right_segment)
 
-    assert len(result) == segments_relationship(left_segment, right_segment)
+    relationship = segments_relationship(left_segment, right_segment)
+    assert (len(result)
+            == (0 if relationship is SegmentsRelationship.NONE
+                else (2 if relationship is SegmentsRelationship.OVERLAP
+                      else 1)))
 
 
 @given(strategies.segments)
