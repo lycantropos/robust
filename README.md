@@ -90,6 +90,33 @@ Usage
 -4
 >>> projection.signed_length((0, 0), (2, 0), (0, 0), (0, 2))
 0
+>>> from robust.angular import Orientation, orientation
+>>> orientation((0, 1), (0, 0), (1, 0)) is Orientation.CLOCKWISE
+True
+>>> orientation((1, 0), (0, 0), (2, 0)) is Orientation.COLLINEAR
+True
+>>> orientation((1, 0), (0, 0), (0, 1)) is Orientation.COUNTERCLOCKWISE
+True
+>>> from robust.angular import Kind, kind
+>>> kind((0, 0), (1, 0), (2, 0)) is Kind.OBTUSE
+True
+>>> kind((0, 1), (0, 0), (1, 0)) is Kind.RIGHT
+True
+>>> kind((1, 0), (0, 0), (2, 0)) is Kind.ACUTE
+True
+>>> from robust.linear import SegmentsRelationship, segments_relationship
+>>> segments_relationship(((0, 0), (1, 0)),
+...                       ((2, 0), (3, 0))) is SegmentsRelationship.NONE
+True
+>>> segments_relationship(((0, 0), (1, 0)),
+...                       ((1, 0), (2, 0))) is SegmentsRelationship.TOUCH
+True
+>>> segments_relationship(((0, 0), (1, 1)),
+...                       ((0, 1), (1, 0))) is SegmentsRelationship.CROSS
+True
+>>> segments_relationship(((0, 0), (1, 0)),
+...                       ((0, 0), (1, 0))) is SegmentsRelationship.OVERLAP
+True
 
 ```
 
