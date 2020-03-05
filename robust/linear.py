@@ -90,11 +90,11 @@ def segments_intersections(left: Segment,
     relationship = segments_relationship(left, right)
     if relationship is SegmentsRelationship.NONE:
         return ()
-    elif relationship is SegmentsRelationship.CROSS:
-        return segments_intersection(left, right),
-    else:
+    elif relationship is SegmentsRelationship.OVERLAP:
         _, first_intersection, second_intersection, _ = sorted(left + right)
         return first_intersection, second_intersection
+    else:
+        return segments_intersection(left, right),
 
 
 def segments_intersection(left: Segment, right: Segment) -> Point:
