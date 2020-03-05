@@ -33,15 +33,14 @@ def segments_relationship(left: Segment,
             and _bounding_box_contains(right, left_start)):
         if left_end_orientation is Orientation.COLLINEAR:
             if left_start == right_start:
-                if kind(left_end, left_start, right_end) is Kind.ACUTE:
-                    return SegmentsRelationship.OVERLAP
-                else:
-                    return SegmentsRelationship.TOUCH
+                return (SegmentsRelationship.OVERLAP
+                        if kind(left_end, left_start, right_end) is Kind.ACUTE
+                        else SegmentsRelationship.TOUCH)
             elif left_start == right_end:
-                if kind(left_end, left_start, right_start) is Kind.ACUTE:
-                    return SegmentsRelationship.OVERLAP
-                else:
-                    return SegmentsRelationship.TOUCH
+                return (SegmentsRelationship.OVERLAP
+                        if kind(left_end, left_start,
+                                right_start) is Kind.ACUTE
+                        else SegmentsRelationship.TOUCH)
             else:
                 return SegmentsRelationship.OVERLAP
         else:
@@ -50,15 +49,14 @@ def segments_relationship(left: Segment,
           and _bounding_box_contains(right, left_end)):
         if left_start_orientation is Orientation.COLLINEAR:
             if left_end == right_start:
-                if kind(left_start, left_end, right_end) is Kind.ACUTE:
-                    return SegmentsRelationship.OVERLAP
-                else:
-                    return SegmentsRelationship.TOUCH
+                return (SegmentsRelationship.OVERLAP
+                        if kind(left_start, left_end, right_end) is Kind.ACUTE
+                        else SegmentsRelationship.TOUCH)
             elif left_end == right_end:
-                if kind(left_start, left_end, right_start) is Kind.ACUTE:
-                    return SegmentsRelationship.OVERLAP
-                else:
-                    return SegmentsRelationship.TOUCH
+                return (SegmentsRelationship.OVERLAP
+                        if kind(left_start, left_end,
+                                right_start) is Kind.ACUTE
+                        else SegmentsRelationship.TOUCH)
             else:
                 return SegmentsRelationship.OVERLAP
         else:
