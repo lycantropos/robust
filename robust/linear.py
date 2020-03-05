@@ -16,8 +16,9 @@ from .parallelogram import signed_area
 @unique
 class SegmentsRelationship(IntEnum):
     NONE = 0
-    CROSS = 1
-    OVERLAP = 2
+    TOUCH = 1
+    CROSS = 2
+    OVERLAP = 3
 
 
 def segments_relationship(left: Segment,
@@ -26,7 +27,7 @@ def segments_relationship(left: Segment,
         return SegmentsRelationship.OVERLAP
     left_start, left_end = left
     right_start, right_end = right
-    left_start_orientation = orientation(right_start, right_end, left_start, )
+    left_start_orientation = orientation(right_start, right_end, left_start)
     left_end_orientation = orientation(right_start, right_end, left_end)
     if (left_start_orientation is Orientation.COLLINEAR
             and _bounding_box_contains(right, left_start)):
@@ -35,16 +36,16 @@ def segments_relationship(left: Segment,
                 if kind(left_end, left_start, right_end) is Kind.ACUTE:
                     return SegmentsRelationship.OVERLAP
                 else:
-                    return SegmentsRelationship.CROSS
+                    return SegmentsRelationship.TOUCH
             elif left_start == right_end:
                 if kind(left_end, left_start, right_start) is Kind.ACUTE:
                     return SegmentsRelationship.OVERLAP
                 else:
-                    return SegmentsRelationship.CROSS
+                    return SegmentsRelationship.TOUCH
             else:
                 return SegmentsRelationship.OVERLAP
         else:
-            return SegmentsRelationship.CROSS
+            return SegmentsRelationship.TOUCH
     elif (left_end_orientation is Orientation.COLLINEAR
           and _bounding_box_contains(right, left_end)):
         if left_start_orientation is Orientation.COLLINEAR:
@@ -52,16 +53,16 @@ def segments_relationship(left: Segment,
                 if kind(left_start, left_end, right_end) is Kind.ACUTE:
                     return SegmentsRelationship.OVERLAP
                 else:
-                    return SegmentsRelationship.CROSS
+                    return SegmentsRelationship.TOUCH
             elif left_end == right_end:
                 if kind(left_start, left_end, right_start) is Kind.ACUTE:
                     return SegmentsRelationship.OVERLAP
                 else:
-                    return SegmentsRelationship.CROSS
+                    return SegmentsRelationship.TOUCH
             else:
                 return SegmentsRelationship.OVERLAP
         else:
-            return SegmentsRelationship.CROSS
+            return SegmentsRelationship.TOUCH
     else:
         right_start_orientation = orientation(left_end, left_start,
                                               right_start)
@@ -73,12 +74,12 @@ def segments_relationship(left: Segment,
               and _bounding_box_contains(left, right_start)):
             return (SegmentsRelationship.OVERLAP
                     if right_end_orientation is Orientation.COLLINEAR
-                    else SegmentsRelationship.CROSS)
+                    else SegmentsRelationship.TOUCH)
         elif (right_end_orientation is Orientation.COLLINEAR
               and _bounding_box_contains(left, right_end)):
             return (SegmentsRelationship.OVERLAP
                     if right_start_orientation is Orientation.COLLINEAR
-                    else SegmentsRelationship.CROSS)
+                    else SegmentsRelationship.TOUCH)
         else:
             return SegmentsRelationship.NONE
 
