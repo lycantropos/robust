@@ -6,9 +6,7 @@ from typing import (Iterable,
 from . import bounds
 from .hints import (Expansion,
                     Point)
-from .utils import (X,
-                    Y,
-                    scale_expansion,
+from .utils import (scale_expansion,
                     square,
                     sum_expansions,
                     to_cross_product,
@@ -28,12 +26,14 @@ def determinant(first_point: Point, second_point: Point,
     negative -- outside,
     zero -- on a circle defined by other points.
     """
-    first_dx, first_dy = (first_point[X] - fourth_point[X],
-                          first_point[Y] - fourth_point[Y])
-    second_dx, second_dy = (second_point[X] - fourth_point[X],
-                            second_point[Y] - fourth_point[Y])
-    third_dx, third_dy = (third_point[X] - fourth_point[X],
-                          third_point[Y] - fourth_point[Y])
+    first_x, first_y = first_point
+    second_x, second_y = second_point
+    third_x, third_y = third_point
+    fourth_x, fourth_y = fourth_point
+
+    first_dx, first_dy = first_x - fourth_x, first_y - fourth_y
+    second_dx, second_dy = second_x - fourth_x, second_y - fourth_y
+    third_dx, third_dy = third_x - fourth_x, third_y - fourth_y
 
     first_squared_distance = first_dx * first_dx + first_dy * first_dy
     second_squared_distance = second_dx * second_dx + second_dy * second_dy
@@ -61,20 +61,21 @@ def determinant(first_point: Point, second_point: Point,
     error_bound = bounds.to_cocircular_first_error(upper_bound)
     if result > error_bound or -result > error_bound:
         return result
-    return _adjusted_determinant(first_point, second_point,
-                                 third_point, fourth_point,
+    return _adjusted_determinant(first_x, first_y,
+                                 second_x, second_y,
+                                 third_x, third_y,
+                                 fourth_x, fourth_y,
                                  upper_bound)
 
 
-def _adjusted_determinant(first_point: Point, second_point: Point,
-                          third_point: Point, fourth_point: Point,
+def _adjusted_determinant(first_x: Real, first_y: Real,
+                          second_x: Real, second_y: Real,
+                          third_x: Real, third_y: Real,
+                          fourth_x: Real, fourth_y: Real,
                           upper_bound: Real) -> Real:
-    first_dx, first_dy = (first_point[X] - fourth_point[X],
-                          first_point[Y] - fourth_point[Y])
-    second_dx, second_dy = (second_point[X] - fourth_point[X],
-                            second_point[Y] - fourth_point[Y])
-    third_dx, third_dy = (third_point[X] - fourth_point[X],
-                          third_point[Y] - fourth_point[Y])
+    first_dx, first_dy = first_x - fourth_x, first_y - fourth_y
+    second_dx, second_dy = second_x - fourth_x, second_y - fourth_y
+    third_dx, third_dy = third_x - fourth_x, third_y - fourth_y
 
     second_third_cross_product = to_cross_product(second_dx, third_dy,
                                                   third_dx, second_dy)
@@ -95,12 +96,12 @@ def _adjusted_determinant(first_point: Point, second_point: Point,
     if result >= error_bound or -result >= error_bound:
         return result
 
-    first_dx_tail = two_diff_tail(first_point[X], fourth_point[X], first_dx)
-    first_dy_tail = two_diff_tail(first_point[Y], fourth_point[Y], first_dy)
-    second_dx_tail = two_diff_tail(second_point[X], fourth_point[X], second_dx)
-    second_dy_tail = two_diff_tail(second_point[Y], fourth_point[Y], second_dy)
-    third_dx_tail = two_diff_tail(third_point[X], fourth_point[X], third_dx)
-    third_dy_tail = two_diff_tail(third_point[Y], fourth_point[Y], third_dy)
+    first_dx_tail = two_diff_tail(first_x, fourth_x, first_dx)
+    first_dy_tail = two_diff_tail(first_y, fourth_y, first_dy)
+    second_dx_tail = two_diff_tail(second_x, fourth_x, second_dx)
+    second_dy_tail = two_diff_tail(second_y, fourth_y, second_dy)
+    third_dx_tail = two_diff_tail(third_x, fourth_x, third_dx)
+    third_dy_tail = two_diff_tail(third_y, fourth_y, third_dy)
 
     if (not first_dx_tail and not first_dy_tail
             and not second_dx_tail and not second_dy_tail
