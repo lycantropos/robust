@@ -5,8 +5,6 @@ from . import bounds
 from .hints import (Expansion,
                     Point)
 
-X, Y = 0, 1
-
 
 def fast_two_sum(left: Real, right: Real) -> Tuple[Real, Real]:
     estimation = left + right
@@ -231,7 +229,8 @@ def to_cross_product(minuend_multiplier_x: Real,
 
 
 def to_perpendicular_point(point: Point) -> Point:
-    return -point[Y], point[X]
+    x, y = point
+    return -y, x
 
 
 def to_sign(value: Real) -> int:
