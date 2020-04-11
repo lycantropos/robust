@@ -17,6 +17,13 @@ def signed_area(first_start: Point, first_end: Point,
     Positive sign of result means that second vector is counterclockwise,
     negative -- clockwise,
     zero -- collinear to first vector.
+
+    >>> signed_area((0, 0), (1, 0), (0, 0), (1, 0))
+    0
+    >>> signed_area((0, 0), (1, 0), (0, 0), (0, 1))
+    1
+    >>> signed_area((0, 0), (1, 0), (0, 1), (0, 0))
+    -1
     """
     first_start_x, first_start_y = first_start
     first_end_x, first_end_y = first_end
