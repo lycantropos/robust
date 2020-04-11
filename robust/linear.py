@@ -140,6 +140,16 @@ def segments_intersections(left: Segment,
 
 
 def segments_intersection(left: Segment, right: Segment) -> Point:
+    """
+    Finds intersection point of segments that known to have only one.
+
+    >>> segments_intersection(((0, 0), (2, 0)), ((0, 0), (0, 2))) == (0, 0)
+    True
+    >>> segments_intersection(((0, 0), (2, 0)), ((1, 0), (1, 1))) == (1, 0)
+    True
+    >>> segments_intersection(((0, 0), (2, 0)), ((2, 0), (3, 0))) == (2, 0)
+    True
+    """
     left_start, left_end = left
     right_start, right_end = right
     if segment_contains(left, right_start):
