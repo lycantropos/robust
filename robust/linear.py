@@ -28,6 +28,31 @@ class SegmentsRelationship(IntEnum):
 
 def segments_relationship(left: Segment,
                           right: Segment) -> SegmentsRelationship:
+    """
+    Finds relationship between segments.
+
+    >>> (segments_relationship(((0, 0), (2, 0)), ((0, 0), (2, 0)))
+    ...  is SegmentsRelationship.OVERLAP)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((0, 0), (0, 2)))
+    ...  is SegmentsRelationship.TOUCH)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((0, 0), (1, 0)))
+    ...  is SegmentsRelationship.OVERLAP)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((1, 0), (1, 1)))
+    ...  is SegmentsRelationship.TOUCH)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((1, 0), (2, 0)))
+    ...  is SegmentsRelationship.OVERLAP)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((2, 0), (3, 0)))
+    ...  is SegmentsRelationship.TOUCH)
+    True
+    >>> (segments_relationship(((0, 0), (2, 0)), ((3, 0), (4, 0)))
+    ...  is SegmentsRelationship.NONE)
+    True
+    """
     if left == right or left == right[::-1]:
         return SegmentsRelationship.OVERLAP
     left_start, left_end = left
