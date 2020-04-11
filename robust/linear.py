@@ -108,6 +108,27 @@ def segments_relationship(left: Segment,
 def segments_intersections(left: Segment,
                            right: Segment) -> Union[Tuple[()], Tuple[Point],
                                                     Tuple[Point, Point]]:
+    """
+    Finds intersections of segments.
+
+    >>> (segments_intersections(((0, 0), (2, 0)), ((0, 0), (2, 0)))
+    ...  == ((0, 0), (2, 0)))
+    True
+    >>> segments_intersections(((0, 0), (2, 0)), ((0, 0), (0, 2))) == ((0, 0),)
+    True
+    >>> (segments_intersections(((0, 0), (2, 0)), ((0, 0), (1, 0)))
+    ...  == ((0, 0), (1, 0)))
+    True
+    >>> segments_intersections(((0, 0), (2, 0)), ((1, 0), (1, 1))) == ((1, 0),)
+    True
+    >>> (segments_intersections(((0, 0), (2, 0)), ((1, 0), (2, 0)))
+    ...  == ((1, 0), (2, 0)))
+    True
+    >>> segments_intersections(((0, 0), (2, 0)), ((2, 0), (3, 0))) == ((2, 0),)
+    True
+    >>> segments_intersections(((0, 0), (2, 0)), ((3, 0), (4, 0))) == ()
+    True
+    """
     relationship = segments_relationship(left, right)
     if relationship is SegmentsRelationship.NONE:
         return ()
