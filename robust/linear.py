@@ -1,8 +1,7 @@
 from enum import (IntEnum,
                   unique)
 from fractions import Fraction
-from typing import (Tuple,
-                    Union)
+from typing import Tuple
 
 from .angular import (Orientation,
                       orientation)
@@ -105,9 +104,7 @@ def segments_relationship(left: Segment,
             return SegmentsRelationship.CROSS
 
 
-def segments_intersections(left: Segment,
-                           right: Segment) -> Union[Tuple[()], Tuple[Point],
-                                                    Tuple[Point, Point]]:
+def segments_intersections(left: Segment, right: Segment) -> Tuple[Point, ...]:
     """
     Finds intersections of segments.
 
