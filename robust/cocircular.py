@@ -25,6 +25,13 @@ def determinant(first_point: Point, second_point: Point,
     Positive sign of result means that point lies inside,
     negative -- outside,
     zero -- on a circle defined by other points.
+
+    >>> determinant((0, 0), (2, 0), (2, 2), (0, 2))
+    0
+    >>> determinant((0, 0), (2, 0), (2, 2), (0, 3))
+    -12
+    >>> determinant((0, 0), (2, 0), (2, 2), (0, 1))
+    4
     """
     first_x, first_y = first_point
     second_x, second_y = second_point
