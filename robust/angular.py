@@ -16,8 +16,14 @@ class Kind(IntEnum):
 
 @unique
 class Orientation(IntEnum):
+    """
+    Represents kinds of angle orientations.
+    """
+    #: in the same direction as a clock's hands
     CLOCKWISE = -1
+    #: to the top and then to the bottom or vice versa
     COLLINEAR = 0
+    #: opposite to clockwise
     COUNTERCLOCKWISE = 1
 
 
