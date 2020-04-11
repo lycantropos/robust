@@ -28,8 +28,11 @@ def kind(first_ray_point: Point,
     Returns kind of angle built on given points.
 
     >>> kind((1, 0), (0, 0), (1, 0)) is Kind.ACUTE
+    True
     >>> kind((1, 0), (0, 0), (0, 1)) is Kind.RIGHT
+    True
     >>> kind((1, 0), (0, 0), (-1, 0)) is Kind.OBTUSE
+    True
     """
     return Kind(to_sign(signed_length(vertex, first_ray_point,
                                       vertex, second_ray_point)))
