@@ -10,13 +10,14 @@ from .utils import to_sign
 @unique
 class Kind(IntEnum):
     """
-    Represents kinds of angles based on their degrees value in range [0, 180].
+    Represents kinds of angles
+    based on their degrees value in range ``[0, 180]``.
     """
-    #: (90, 180] degrees
+    #: ``(90, 180]`` degrees
     OBTUSE = -1
-    #: 90 degrees
+    #: ``90`` degrees
     RIGHT = 0
-    #: [0, 90) degrees
+    #: ``[0, 90)`` degrees
     ACUTE = 1
 
 
