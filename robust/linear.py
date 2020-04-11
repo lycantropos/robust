@@ -4,9 +4,7 @@ from fractions import Fraction
 from typing import (Tuple,
                     Union)
 
-from .angular import (Kind,
-                      Orientation,
-                      kind,
+from .angular import (Orientation,
                       orientation)
 from .hints import (Point,
                     Segment)
@@ -27,59 +25,52 @@ def segments_relationship(left: Segment,
         return SegmentsRelationship.OVERLAP
     left_start, left_end = left
     right_start, right_end = right
+    if left_start > left_end:
+        left_start, left_end = left_end, left_start
+    if right_start > right_end:
+        right_start, right_end = right_end, right_start
     left_start_orientation = orientation(right_start, right_end, left_start)
     left_end_orientation = orientation(right_start, right_end, left_end)
-    if (left_start_orientation is Orientation.COLLINEAR
-            and _bounding_box_contains(right, left_start)):
-        if left_end_orientation is Orientation.COLLINEAR:
-            if left_start == right_start:
-                return (SegmentsRelationship.OVERLAP
-                        if kind(left_end, left_start, right_end) is Kind.ACUTE
-                        else SegmentsRelationship.TOUCH)
-            elif left_start == right_end:
-                return (SegmentsRelationship.OVERLAP
-                        if kind(left_end, left_start,
-                                right_start) is Kind.ACUTE
-                        else SegmentsRelationship.TOUCH)
-            else:
-                return SegmentsRelationship.OVERLAP
-        else:
-            return SegmentsRelationship.TOUCH
-    elif (left_end_orientation is Orientation.COLLINEAR
-          and _bounding_box_contains(right, left_end)):
+    if left_start_orientation is left_end_orientation:
         if left_start_orientation is Orientation.COLLINEAR:
-            if left_end == right_start:
-                return (SegmentsRelationship.OVERLAP
-                        if kind(left_start, left_end, right_end) is Kind.ACUTE
-                        else SegmentsRelationship.TOUCH)
-            elif left_end == right_end:
-                return (SegmentsRelationship.OVERLAP
-                        if kind(left_start, left_end,
-                                right_start) is Kind.ACUTE
-                        else SegmentsRelationship.TOUCH)
-            else:
+            if left_start == right_start:
                 return SegmentsRelationship.OVERLAP
+            elif left_end == right_end:
+                return SegmentsRelationship.OVERLAP
+            elif left_start == right_end or left_end == right_start:
+                return SegmentsRelationship.TOUCH
+            elif right_start < left_start < right_end:
+                return SegmentsRelationship.OVERLAP
+            elif left_start < right_start < left_end:
+                return SegmentsRelationship.OVERLAP
+            else:
+                return SegmentsRelationship.NONE
         else:
-            return SegmentsRelationship.TOUCH
+            return SegmentsRelationship.NONE
+    elif left_start_orientation is Orientation.COLLINEAR:
+        return (SegmentsRelationship.TOUCH
+                if right_start <= left_start <= right_end
+                else SegmentsRelationship.NONE)
+    elif left_end_orientation is Orientation.COLLINEAR:
+        return (SegmentsRelationship.TOUCH
+                if right_start <= left_end <= right_end
+                else SegmentsRelationship.NONE)
     else:
         right_start_orientation = orientation(left_end, left_start,
                                               right_start)
         right_end_orientation = orientation(left_end, left_start, right_end)
-        if (left_start_orientation * left_end_orientation < 0
-                and right_start_orientation * right_end_orientation < 0):
-            return SegmentsRelationship.CROSS
-        elif (right_start_orientation is Orientation.COLLINEAR
-              and _bounding_box_contains(left, right_start)):
-            return (SegmentsRelationship.OVERLAP
-                    if right_end_orientation is Orientation.COLLINEAR
-                    else SegmentsRelationship.TOUCH)
-        elif (right_end_orientation is Orientation.COLLINEAR
-              and _bounding_box_contains(left, right_end)):
-            return (SegmentsRelationship.OVERLAP
-                    if right_start_orientation is Orientation.COLLINEAR
-                    else SegmentsRelationship.TOUCH)
-        else:
+        if right_start_orientation is right_end_orientation:
             return SegmentsRelationship.NONE
+        elif right_start_orientation is Orientation.COLLINEAR:
+            return (SegmentsRelationship.TOUCH
+                    if left_start < right_start < left_end
+                    else SegmentsRelationship.NONE)
+        elif right_end_orientation is Orientation.COLLINEAR:
+            return (SegmentsRelationship.TOUCH
+                    if left_start < right_end < left_end
+                    else SegmentsRelationship.NONE)
+        else:
+            return SegmentsRelationship.CROSS
 
 
 def segments_intersections(left: Segment,
