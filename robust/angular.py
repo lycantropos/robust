@@ -45,8 +45,11 @@ def orientation(first_ray_point: Point,
     Returns orientation of angle built on given points.
 
     >>> orientation((1, 0), (0, 0), (1, 0)) is Orientation.COLLINEAR
+    True
     >>> orientation((1, 0), (0, 0), (0, 1)) is Orientation.COUNTERCLOCKWISE
+    True
     >>> orientation((0, 1), (0, 0), (1, 0)) is Orientation.CLOCKWISE
+    True
     """
     return Orientation(to_sign(signed_area(vertex, first_ray_point,
                                            vertex, second_ray_point)))
