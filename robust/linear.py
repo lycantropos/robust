@@ -163,42 +163,33 @@ def segments_intersection(left: Segment, right: Segment) -> Point:
                                           right_start, right_end)
         right_base_numerator = signed_area(left_start, right_start,
                                            left_start, left_end)
-        base_numerators_diff = (abs(right_base_numerator)
-                                - abs(left_base_numerator))
+        left_start_x, left_start_y = left_start
+        left_end_x, left_end_y = left_end
+        right_start_x, right_start_y = right_start
+        right_end_x, right_end_y = right_end
+        left_x_addend = (left_end_x - left_start_x) * left_base_numerator
+        left_y_addend = (left_end_y - left_start_y) * left_base_numerator
+        right_x_addend = (right_end_x - right_start_x) * right_base_numerator
+        right_y_addend = (right_end_y - right_start_y) * right_base_numerator
+        delta_x, delta_y = (abs(right_x_addend) - abs(left_x_addend),
+                            abs(right_y_addend) - abs(left_y_addend))
         denominator_inv = (Fraction(1, denominator)
                            if isinstance(denominator, int)
                            else 1 / denominator)
-        if not base_numerators_diff:
-            left_start_x, left_start_y = left_start
-            left_end_x, left_end_y = left_end
-            right_start_x, right_start_y = right_start
-            right_end_x, right_end_y = right_end
-            return ((left_start_x + right_start_x
-                     + ((left_end_x - left_start_x) * left_base_numerator
-                        + (right_end_x - right_start_x) * right_base_numerator)
-                     * denominator_inv) / 2,
-                    (left_start_y + right_start_y
-                     + ((left_end_y - left_start_y) * left_base_numerator
-                        + (right_end_y - right_start_y) * right_base_numerator)
-                     * denominator_inv) / 2)
-        elif base_numerators_diff > 0:
-            left_start_x, left_start_y = left_start
-            left_end_x, left_end_y = left_end
-            return (left_start_x
-                    + left_base_numerator * (left_end_x - left_start_x)
-                    * denominator_inv,
-                    left_start_y
-                    + left_base_numerator * (left_end_y - left_start_y)
-                    * denominator_inv)
-        else:
-            right_start_x, right_start_y = right_start
-            right_end_x, right_end_y = right_end
-            return (right_start_x
-                    + right_base_numerator * (right_end_x - right_start_x)
-                    * denominator_inv,
-                    right_start_y
-                    + right_base_numerator * (right_end_y - right_start_y)
-                    * denominator_inv)
+        return (left_start_x + left_x_addend * denominator_inv
+                if delta_x > 0
+                else (right_start_x + right_x_addend * denominator_inv
+                      if delta_x < 0
+                      else (left_start_x + right_start_x
+                            + (left_x_addend + right_x_addend)
+                            * denominator_inv) / 2),
+                left_start_y + left_y_addend * denominator_inv
+                if delta_y > 0
+                else (right_start_y + right_y_addend * denominator_inv
+                      if delta_y < 0
+                      else (left_start_y + right_start_y
+                            + (left_y_addend + right_y_addend)
+                            * denominator_inv) / 2))
 
 
 def segment_contains(segment: Segment, point: Point) -> bool:
