@@ -195,7 +195,7 @@ def segments_intersection(left: Segment, right: Segment) -> Point:
 def segment_contains(segment: Segment, point: Point) -> bool:
     """
     Checks if segment contains point.
-    
+
     >>> segment_contains(((0, 0), (2, 0)), (0, 0))
     True
     >>> segment_contains(((0, 0), (2, 0)), (0, 2))
