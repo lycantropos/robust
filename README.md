@@ -2,7 +2,7 @@ robust
 =========
 
 [![](https://travis-ci.com/lycantropos/robust.svg?branch=master)](https://travis-ci.com/lycantropos/robust "Travis CI")
-[![](https://dev.azure.com/lycantropos/robust/_apis/build/status/lycantropos.robust?branchName=master)](https://dev.azure.com/lycantropos/robust/_build/latest?branchName=master "Azure Pipelines")
+[![](https://dev.azure.com/lycantropos/robust/_apis/build/status/lycantropos.robust?branchName=master)](https://dev.azure.com/lycantropos/robust/_build/latest?definitionId=17&branchName=master "Azure Pipelines")
 [![](https://readthedocs.org/projects/shewchuk/badge/?version=latest)](https://shewchuk.readthedocs.io/en/latest "Documentation")
 [![](https://codecov.io/gh/lycantropos/robust/branch/master/graph/badge.svg)](https://codecov.io/gh/lycantropos/robust "Codecov")
 [![](https://img.shields.io/github/license/lycantropos/robust.svg)](https://github.com/lycantropos/robust/blob/master/LICENSE "License")
