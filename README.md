@@ -1,5 +1,5 @@
 robust
-=========
+======
 
 [![](https://travis-ci.com/lycantropos/robust.svg?branch=master)](https://travis-ci.com/lycantropos/robust "Travis CI")
 [![](https://dev.azure.com/lycantropos/robust/_apis/build/status/lycantropos.robust?branchName=master)](https://dev.azure.com/lycantropos/robust/_build/latest?definitionId=17&branchName=master "Azure Pipelines")
