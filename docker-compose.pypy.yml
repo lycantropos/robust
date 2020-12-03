@@ -12,7 +12,6 @@ services:
       - ./robust/:/opt/robust/robust/
       - ./tests/:/opt/robust/tests/
       - ./README.md:/opt/robust/README.md
-      - ./requirements.txt:/opt/robust/requirements.txt
       - ./requirements-tests.txt:/opt/robust/requirements-tests.txt
       - ./setup.py:/opt/robust/setup.py
       - ./pytest.ini:/opt/robust/pytest.ini

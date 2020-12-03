@@ -33,11 +33,6 @@ git clone https://github.com/lycantropos/robust.git
 cd robust
 ```
 
-Install dependencies
-```bash
-python -m pip install --force-reinstall -r requirements.txt
-```
-
 Install
 ```bash
 python setup.py install
