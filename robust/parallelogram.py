@@ -29,13 +29,11 @@ def signed_area(first_start: Point, first_end: Point,
     first_end_x, first_end_y = first_end
     second_start_x, second_start_y = second_start
     second_end_x, second_end_y = second_end
-
     minuend = ((first_end_x - first_start_x)
                * (second_end_y - second_start_y))
     subtrahend = ((first_end_y - first_start_y)
                   * (second_end_x - second_start_x))
     result = minuend - subtrahend
-
     if minuend > 0.:
         if subtrahend <= 0.:
             return result
@@ -48,11 +46,9 @@ def signed_area(first_start: Point, first_end: Point,
             upper_bound = -minuend - subtrahend
     else:
         return result
-
     error_bound = bounds.to_signed_measure_first_error(upper_bound)
     if result >= error_bound or -result >= error_bound:
         return result
-
     return _adjusted_signed_area(first_start_x, first_start_y,
                                  first_end_x, first_end_y,
                                  second_start_x, second_start_y,
@@ -69,7 +65,6 @@ def _adjusted_signed_area(first_start_x: Real, first_start_y: Real,
     minuend_multiplier_y = second_end_y - second_start_y
     subtrahend_multiplier_x = second_end_x - second_start_x
     subtrahend_multiplier_y = first_end_y - first_start_y
-
     minuend_tail, minuend = two_product(minuend_multiplier_x,
                                         minuend_multiplier_y)
     subtrahend_tail, subtrahend = two_product(subtrahend_multiplier_y,
@@ -81,7 +76,6 @@ def _adjusted_signed_area(first_start_x: Real, first_start_y: Real,
     error_bound = bounds.to_signed_measure_second_error(upper_bound)
     if result >= error_bound or -result >= error_bound:
         return result
-
     minuend_multiplier_x_tail = two_diff_tail(first_end_x, first_start_x,
                                               minuend_multiplier_x)
     subtrahend_multiplier_x_tail = two_diff_tail(second_end_x,
@@ -96,7 +90,6 @@ def _adjusted_signed_area(first_start_x: Real, first_start_y: Real,
             and not subtrahend_multiplier_x_tail
             and not subtrahend_multiplier_y_tail):
         return result
-
     error_bound = (bounds.to_signed_measure_third_error(upper_bound)
                    + bounds.to_determinant_error(result))
     result += ((minuend_multiplier_x * minuend_multiplier_y_tail
@@ -105,7 +98,6 @@ def _adjusted_signed_area(first_start_x: Real, first_start_y: Real,
                   + subtrahend_multiplier_x * subtrahend_multiplier_y_tail))
     if result >= error_bound or -result >= error_bound:
         return result
-
     result_expansion = sum_expansions(
             result_expansion, to_cross_product(minuend_multiplier_x_tail,
                                                minuend_multiplier_y,
