@@ -36,13 +36,13 @@ def signed_area(first_start: Point,
     subtrahend = ((first_end_y - first_start_y)
                   * (second_end_x - second_start_x))
     result = minuend - subtrahend
-    if minuend > 0.:
-        if subtrahend <= 0.:
+    if minuend > 0:
+        if subtrahend <= 0:
             return result
         else:
             upper_bound = minuend + subtrahend
-    elif minuend < 0.:
-        if subtrahend >= 0.:
+    elif minuend < 0:
+        if subtrahend >= 0:
             return result
         else:
             upper_bound = -minuend - subtrahend
