@@ -119,69 +119,41 @@ def sum_expansions(left_expansion: Expansion,
     if (right_element > left_element) is (right_element > -left_element):
         accumulator = left_element
         left_index += 1
-        try:
-            left_element = left_expansion[left_index]
-        except IndexError:
-            pass
     else:
         accumulator = right_element
         right_index += 1
-        try:
-            right_element = right_expansion[right_index]
-        except IndexError:
-            pass
     result = []
     if (left_index < left_length) and (right_index < right_length):
+        left_element, right_element = (left_expansion[left_index],
+                                       right_expansion[right_index])
         if (right_element > left_element) is (right_element > -left_element):
             tail, accumulator = fast_two_sum(left_element, accumulator)
             left_index += 1
-            try:
-                left_element = left_expansion[left_index]
-            except IndexError:
-                pass
         else:
             tail, accumulator = fast_two_sum(right_element, accumulator)
             right_index += 1
-            try:
-                right_element = right_expansion[right_index]
-            except IndexError:
-                pass
         if tail:
             result.append(tail)
         while (left_index < left_length) and (right_index < right_length):
+            left_element, right_element = (left_expansion[left_index],
+                                           right_expansion[right_index])
             if ((right_element > left_element)
                     is (right_element > -left_element)):
                 tail, accumulator = two_sum(accumulator, left_element)
                 left_index += 1
-                try:
-                    left_element = left_expansion[left_index]
-                except IndexError:
-                    pass
             else:
                 tail, accumulator = two_sum(accumulator, right_element)
                 right_index += 1
-                try:
-                    right_element = right_expansion[right_index]
-                except IndexError:
-                    pass
             if tail:
                 result.append(tail)
-    while left_index < left_length:
+    for left_index in range(left_index, left_length):
+        left_element = left_expansion[left_index]
         tail, accumulator = two_sum(accumulator, left_element)
-        left_index += 1
-        try:
-            left_element = left_expansion[left_index]
-        except IndexError:
-            pass
         if tail:
             result.append(tail)
-    while right_index < right_length:
+    for right_index in range(right_index, right_length):
+        right_element = right_expansion[right_index]
         tail, accumulator = two_sum(accumulator, right_element)
-        right_index += 1
-        try:
-            right_element = right_expansion[right_index]
-        except IndexError:
-            pass
         if tail:
             result.append(tail)
     if accumulator or not result:
