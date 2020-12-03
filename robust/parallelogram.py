@@ -9,8 +9,10 @@ from .utils import (sum_expansions,
                     two_two_diff)
 
 
-def signed_area(first_start: Point, first_end: Point,
-                second_start: Point, second_end: Point) -> Real:
+def signed_area(first_start: Point,
+                first_end: Point,
+                second_start: Point,
+                second_end: Point) -> Real:
     """
     Calculates signed area of parallelogram built on segments' vectors.
 
@@ -56,10 +58,14 @@ def signed_area(first_start: Point, first_end: Point,
                                  upper_bound)
 
 
-def _adjusted_signed_area(first_start_x: Real, first_start_y: Real,
-                          first_end_x: Real, first_end_y: Real,
-                          second_start_x: Real, second_start_y: Real,
-                          second_end_x: Real, second_end_y: Real,
+def _adjusted_signed_area(first_start_x: Real,
+                          first_start_y: Real,
+                          first_end_x: Real,
+                          first_end_y: Real,
+                          second_start_x: Real,
+                          second_start_y: Real,
+                          second_end_x: Real,
+                          second_end_y: Real,
                           upper_bound: Real) -> Real:
     minuend_multiplier_x = first_end_x - first_start_x
     minuend_multiplier_y = second_end_y - second_start_y
