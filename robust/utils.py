@@ -211,9 +211,4 @@ def to_perpendicular_point(point: Point) -> Point:
 
 
 def to_sign(value: Real) -> int:
-    if value > 0:
-        return 1
-    elif value < 0:
-        return -1
-    else:
-        return 0
+    return (1 if value > 0 else -1) if value else 0
