@@ -115,13 +115,12 @@ def square(value: Real) -> Tuple[Real, Real]:
     return tail, head
 
 
-def sum_expansions(left_expansion: Expansion,
-                   right_expansion: Expansion) -> Expansion:
+def sum_expansions(left: Expansion, right: Expansion) -> Expansion:
     """
     Sums two expansions with zero components elimination.
     """
-    left_length, right_length = len(left_expansion), len(right_expansion)
-    left_element, right_element = left_expansion[0], right_expansion[0]
+    left_length, right_length = len(left), len(right)
+    left_element, right_element = left[0], right[0]
     left_index = right_index = 0
     if (right_element > left_element) is (right_element > -left_element):
         accumulator = left_element
@@ -131,8 +130,7 @@ def sum_expansions(left_expansion: Expansion,
         right_index += 1
     result = []
     if (left_index < left_length) and (right_index < right_length):
-        left_element, right_element = (left_expansion[left_index],
-                                       right_expansion[right_index])
+        left_element, right_element = left[left_index], right[right_index]
         if (right_element > left_element) is (right_element > -left_element):
             tail, accumulator = fast_two_sum(left_element, accumulator)
             left_index += 1
@@ -142,8 +140,7 @@ def sum_expansions(left_expansion: Expansion,
         if tail:
             result.append(tail)
         while (left_index < left_length) and (right_index < right_length):
-            left_element, right_element = (left_expansion[left_index],
-                                           right_expansion[right_index])
+            left_element, right_element = left[left_index], right[right_index]
             if ((right_element > left_element)
                     is (right_element > -left_element)):
                 tail, accumulator = two_sum(accumulator, left_element)
@@ -154,12 +151,12 @@ def sum_expansions(left_expansion: Expansion,
             if tail:
                 result.append(tail)
     for left_index in range(left_index, left_length):
-        left_element = left_expansion[left_index]
+        left_element = left[left_index]
         tail, accumulator = two_sum(accumulator, left_element)
         if tail:
             result.append(tail)
     for right_index in range(right_index, right_length):
-        right_element = right_expansion[right_index]
+        right_element = right[right_index]
         tail, accumulator = two_sum(accumulator, right_element)
         if tail:
             result.append(tail)
