@@ -80,8 +80,7 @@ def _adjusted_signed_area(first_start_x: Real,
         return result
     minuend_multiplier_x_tail = two_diff_tail(first_end_x, first_start_x,
                                               minuend_multiplier_x)
-    subtrahend_multiplier_x_tail = two_diff_tail(second_end_x,
-                                                 second_start_x,
+    subtrahend_multiplier_x_tail = two_diff_tail(second_end_x, second_start_x,
                                                  subtrahend_multiplier_x)
     subtrahend_multiplier_y_tail = two_diff_tail(first_end_y, first_start_y,
                                                  subtrahend_multiplier_y)
