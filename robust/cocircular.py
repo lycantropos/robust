@@ -16,8 +16,10 @@ from .utils import (scale_expansion,
                     two_two_sum)
 
 
-def determinant(first_point: Point, second_point: Point,
-                third_point: Point, fourth_point: Point) -> Real:
+def determinant(first_point: Point,
+                second_point: Point,
+                third_point: Point,
+                fourth_point: Point) -> Real:
     """
     Calculates determinant of linear equations' system
     for checking if four points lie on the same circle.
@@ -68,17 +70,18 @@ def determinant(first_point: Point, second_point: Point,
     error_bound = bounds.to_cocircular_first_error(upper_bound)
     if result > error_bound or -result > error_bound:
         return result
-    return _adjusted_determinant(first_x, first_y,
-                                 second_x, second_y,
-                                 third_x, third_y,
-                                 fourth_x, fourth_y,
-                                 upper_bound)
+    return _adjusted_determinant(first_x, first_y, second_x, second_y, third_x,
+                                 third_y, fourth_x, fourth_y, upper_bound)
 
 
-def _adjusted_determinant(first_x: Real, first_y: Real,
-                          second_x: Real, second_y: Real,
-                          third_x: Real, third_y: Real,
-                          fourth_x: Real, fourth_y: Real,
+def _adjusted_determinant(first_x: Real,
+                          first_y: Real,
+                          second_x: Real,
+                          second_y: Real,
+                          third_x: Real,
+                          third_y: Real,
+                          fourth_x: Real,
+                          fourth_y: Real,
                           upper_bound: Real) -> Real:
     first_dx, first_dy = first_x - fourth_x, first_y - fourth_y
     second_dx, second_dy = second_x - fourth_x, second_y - fourth_y
@@ -296,9 +299,12 @@ def _adjusted_determinant(first_x: Real, first_y: Real,
 
 
 def _to_dx_extras(expansion: Expansion,
-                  dx: Real, dx_tail: Real,
-                  left_dy_tail: Real, left_squared_length: Expansion,
-                  right_dy_tail: Real, right_squared_length: Expansion,
+                  dx: Real,
+                  dx_tail: Real,
+                  left_dy_tail: Real,
+                  left_squared_length: Expansion,
+                  right_dy_tail: Real,
+                  right_squared_length: Expansion,
                   left_right_crossed_tails: Expansion,
                   left_right_crossed_tails_tail: Expansion
                   ) -> Iterable[Expansion]:
@@ -323,7 +329,8 @@ def _to_dx_extras(expansion: Expansion,
 
 
 def _to_dy_extras(expansion: Expansion,
-                  dy: Real, dy_tail: Real,
+                  dy: Real,
+                  dy_tail: Real,
                   rest_crossed_tails: Expansion,
                   rest_crossed_tails_tail: Expansion) -> Iterable[Expansion]:
     dy_tail_rest_crossed_tails = scale_expansion(rest_crossed_tails, dy_tail)
@@ -339,10 +346,12 @@ def _to_dy_extras(expansion: Expansion,
 
 
 def _to_extra(expansion: Expansion,
-              coordinate: Real, coordinate_tail: Real,
-              left_coordinate: Real, left_squared_length: Expansion,
-              right_coordinate: Real, right_squared_length: Expansion
-              ) -> Expansion:
+              coordinate: Real,
+              coordinate_tail: Real,
+              left_coordinate: Real,
+              left_squared_length: Expansion,
+              right_coordinate: Real,
+              right_squared_length: Expansion) -> Expansion:
     second_addend = scale_expansion(scale_expansion(right_squared_length,
                                                     coordinate_tail),
                                     left_coordinate)
@@ -354,11 +363,14 @@ def _to_extra(expansion: Expansion,
     return sum_expansions(subtrahend, minuend)
 
 
-def _to_crossed_tails(left_dx: Real, left_dx_tail: Real,
-                      left_dy: Real, left_dy_tail: Real,
-                      right_dx: Real, right_dx_tail: Real,
-                      right_dy: Real, right_dy_tail: Real
-                      ) -> Tuple[Expansion, Expansion]:
+def _to_crossed_tails(left_dx: Real,
+                      left_dx_tail: Real,
+                      left_dy: Real,
+                      left_dy_tail: Real,
+                      right_dx: Real,
+                      right_dx_tail: Real,
+                      right_dy: Real,
+                      right_dy_tail: Real) -> Tuple[Expansion, Expansion]:
     tail = two_two_diff(*two_product(left_dx_tail, right_dy_tail),
                         *two_product(right_dx_tail, left_dy_tail))
     estimation = sum_expansions(two_two_sum(*two_product(left_dx_tail,
@@ -373,17 +385,24 @@ def _to_crossed_tails(left_dx: Real, left_dx_tail: Real,
 
 
 def _multiply_by_squared_length(expansion: Expansion,
-                                dx: Real, dy: Real) -> Expansion:
+                                dx: Real,
+                                dy: Real) -> Expansion:
     return sum_expansions(scale_expansion(scale_expansion(expansion, dx), dx),
                           scale_expansion(scale_expansion(expansion, dy), dy))
 
 
-def _to_addend(left_dx: Real, left_dx_tail: Real,
-               left_dy: Real, left_dy_tail: Real,
-               mid_dx: Real, mid_dx_tail: Real,
-               mid_dy: Real, mid_dy_tail: Real,
-               right_dx: Real, right_dx_tail: Real,
-               right_dy: Real, right_dy_tail: Real) -> Real:
+def _to_addend(left_dx: Real,
+               left_dx_tail: Real,
+               left_dy: Real,
+               left_dy_tail: Real,
+               mid_dx: Real,
+               mid_dx_tail: Real,
+               mid_dy: Real,
+               mid_dy_tail: Real,
+               right_dx: Real,
+               right_dx_tail: Real,
+               right_dy: Real,
+               right_dy_tail: Real) -> Real:
     return ((left_dx * left_dx + left_dy * left_dy)
             * ((mid_dx * right_dy_tail + right_dy * mid_dx_tail)
                - (mid_dy * right_dx_tail + right_dx * mid_dy_tail))

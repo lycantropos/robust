@@ -31,8 +31,7 @@ def signed_area(first_start: Point,
     first_end_x, first_end_y = first_end
     second_start_x, second_start_y = second_start
     second_end_x, second_end_y = second_end
-    minuend = ((first_end_x - first_start_x)
-               * (second_end_y - second_start_y))
+    minuend = (first_end_x - first_start_x) * (second_end_y - second_start_y)
     subtrahend = ((first_end_y - first_start_y)
                   * (second_end_x - second_start_x))
     result = minuend - subtrahend
@@ -51,11 +50,9 @@ def signed_area(first_start: Point,
     error_bound = bounds.to_signed_measure_first_error(upper_bound)
     if result >= error_bound or -result >= error_bound:
         return result
-    return _adjusted_signed_area(first_start_x, first_start_y,
-                                 first_end_x, first_end_y,
-                                 second_start_x, second_start_y,
-                                 second_end_x, second_end_y,
-                                 upper_bound)
+    return _adjusted_signed_area(first_start_x, first_start_y, first_end_x,
+                                 first_end_y, second_start_x, second_start_y,
+                                 second_end_x, second_end_y, upper_bound)
 
 
 def _adjusted_signed_area(first_start_x: Real,
