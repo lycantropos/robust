@@ -68,13 +68,12 @@ def _adjusted_signed_area(first_start_x: Real,
     minuend_multiplier_y = second_end_y - second_start_y
     subtrahend_multiplier_x = second_end_x - second_start_x
     subtrahend_multiplier_y = first_end_y - first_start_y
-    minuend_tail, minuend = two_product(minuend_multiplier_x,
-                                        minuend_multiplier_y)
-    subtrahend_tail, subtrahend = two_product(subtrahend_multiplier_y,
-                                              subtrahend_multiplier_x)
-
-    result_expansion = two_two_diff(minuend_tail, minuend, subtrahend_tail,
-                                    subtrahend)
+    minuend_tail, minuend_head = two_product(minuend_multiplier_x,
+                                             minuend_multiplier_y)
+    subtrahend_tail, subtrahend_head = two_product(subtrahend_multiplier_y,
+                                                   subtrahend_multiplier_x)
+    result_expansion = two_two_diff(minuend_tail, minuend_head,
+                                    subtrahend_tail, subtrahend_head)
     result = sum(result_expansion)
     error_bound = bounds.to_signed_measure_second_error(upper_bound)
     if result >= error_bound or -result >= error_bound:
