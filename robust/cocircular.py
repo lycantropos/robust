@@ -39,22 +39,18 @@ def determinant(first_point: Point,
     second_x, second_y = second_point
     third_x, third_y = third_point
     fourth_x, fourth_y = fourth_point
-
     first_dx, first_dy = first_x - fourth_x, first_y - fourth_y
     second_dx, second_dy = second_x - fourth_x, second_y - fourth_y
     third_dx, third_dy = third_x - fourth_x, third_y - fourth_y
-
     first_squared_distance = first_dx * first_dx + first_dy * first_dy
     second_squared_distance = second_dx * second_dx + second_dy * second_dy
     third_squared_distance = third_dx * third_dx + third_dy * third_dy
-
     first_dx_second_dy = first_dx * second_dy
     first_dx_third_dy = first_dx * third_dy
     second_dx_first_dy = second_dx * first_dy
     second_dx_third_dy = second_dx * third_dy
     third_dx_first_dy = third_dx * first_dy
     third_dx_second_dy = third_dx * second_dy
-
     result = (first_squared_distance
               * (second_dx_third_dy - third_dx_second_dy)
               + second_squared_distance
